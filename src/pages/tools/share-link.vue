@@ -1,0 +1,230 @@
+<template>
+    <div>
+
+        <ErcodePoster ref="ercodePoster" />
+
+        <a-card :bordered="false">
+           <div style="margin-bottom: 20px;">
+            <!--  -->
+
+            <a-modal
+            title="微信扫码进入分享"
+            :visible="showErcode"
+            @ok="showErcode = false"
+            @cancel="showErcode = fasle" >
+              <div class="flex justify-center align-center">
+                <img  src="@/assets/image/share-ercode1.png" style="width:120px;"  />
+              </div>
+            </a-modal>
+
+            <a-button type="danger" @click="showErcode = !showErcode" size="midden" style="margin-right: 10px">微信扫码进入</a-button>
+
+            <a-button type="primary" @click="openAdd(null)" size="midden">新增获客分享链接</a-button>
+
+            <a-input style="width: 200px;margin: 0 10px;" v-model="link" placeholder="生成海报链接"></a-input>
+            <a-button type="primary" @click="$refs.ercodePoster.createImage(link)" size="midden">生成海报</a-button>
+            
+           </div>
+            <a-table :dataSource="list" :columns="columns" :pagination="false" bordered size="middle">
+                <div slot="shareCover" slot-scope="e">
+                    <img :src="e.shareCover" style="width:60px;height:60px" alt="">
+                </div>
+
+                <div slot="only" slot-scope="e">
+                    <a-switch :checked="e.only" @change="changeOnly($event,e)">
+                        <!-- <a-icon slot="checkedChildren" type="check" />
+                        <a-icon slot="unCheckedChildren" type="close" /> -->
+                    </a-switch>
+                </div>
+                
+                <div class="handler" slot="operation" slot-scope="text,record,index">
+                    <a-button type="primary" @click="openAdd(index)" size="small" style="margin-right:10px">修改</a-button>
+                    <a-button type="primary" @click="$refs.ercodePoster.createImage(record.link)" size="small" style="margin-right:10px">下载海报</a-button>
+                    <a-button type="danger" @click="handleDelete(index)" size="small">删除</a-button>
+                </div>
+            </a-table>
+        </a-card>
+
+        <!-- 新增二维码 -->
+        <div v-if="showAdd">
+            <a-drawer :title="updateInfo ? '修改链接' : '新增链接'" :placement="'right'" :closable="false" width="40%" :visible="showAdd"
+                @close="showAdd = false">
+                <AddShare :type="0" :info="updateInfo" @success="refreshList" />
+            </a-drawer>
+        </div>
+    </div>
+</template>
+  
+<script>
+import { Modal } from 'ant-design-vue'
+import AddShare from './children/add-share'
+import ErcodePoster from './children/ErcodePoster'
+import api from '@/api'
+
+export default {
+    name: 'User',
+    data() {
+
+        return {
+            showErcode:false,
+            showAdd: false, // 是否显示追加资源
+            addByPwd: null, // 追加资源密码
+            showResourceList: false, // 是否显示资源池手机号码列表
+            listPwd: null,
+            list: null, // 资源列表
+            total: 0, // 总数
+            link:null,
+            desc:"手机端通过扫描下方二维码进行分享",
+            updateInfo:null,
+            columns: [
+                {
+                    title: 'ID',
+                    dataIndex: 'id',
+                    align: 'center'
+                },
+                {
+                    title: '用户',
+                    dataIndex: 'username',
+                    align: 'center'
+                },
+                {
+                    title: '打开次数',
+                    dataIndex: 'openCount',
+                    align: 'center'
+                },
+                {
+                    title: '链接地址',
+                    dataIndex: 'link',
+                    width:300
+                },
+                {
+                    title: '分享Title',
+                    dataIndex: 'shareTitle',
+                    align: 'center',
+                    width:200
+                },
+                {
+                    title: '分享描述',
+                    dataIndex: 'shareDesic',
+                    align: 'center',
+                    width:200
+                },
+                {
+                    title: '设置唯一',
+                    scopedSlots: { customRender: 'only' },
+                    align: 'center'
+                },
+                {
+                    title: '分享图片',
+                    scopedSlots: { customRender: 'shareCover' },
+                    align: 'center'
+                },
+                {
+                    title: '操作',
+                    scopedSlots: { customRender: 'operation' },
+                    align: 'center'
+                }
+            ]
+        }
+    },
+    components: { AddShare,ErcodePoster },
+    created() {
+        this.queryList();
+    },
+    methods: {
+
+        openAdd:function(index){
+            debugger;
+            if(index == null) this.updateInfo = null;
+            else this.updateInfo = this.list[index];
+            this.showAdd = true;
+        },
+
+        changePageId: function (e) {
+            this.pageId = e;
+            this.queryList();
+        },
+
+        // 刷新列表
+        refreshList: function () {
+            this.queryList();
+            this.showAdd = false;
+        },
+
+        // 打开追加资源框
+        showAddresBox: function (index) {
+            this.addByPwd = this.list[index].pwd;
+            this.showAdd = true;
+        },
+
+        // 打开手机列表框
+        showPhoneList: function (index) {
+            this.listPwd = this.list[index].pwd;
+            this.showResourceList = true;
+        },
+
+        // 获取列表
+        queryList: function () {
+            api.GetCustomShareList().then(data => {
+                data.forEach(e => {
+                    e.only = Boolean(e.only)
+                });
+                this.list = data.reverse();
+                this.total = data.length;
+            });
+        },
+
+        changeOnly:function(status,e){
+            // e.only = status;
+            api.setCustomOnly(e.id,Number(status)).then(() => {
+                this.queryList();
+            })
+        },
+
+        // 设置唯一
+
+
+        // 删除确认操作
+        handleDelete: function (index) {
+            Modal.confirm({
+                title: '删除链接',
+                content: '确定要删除改链接？',
+                okText: '确认',
+                cancelText: '取消',
+                onOk: () => {
+                    // 调用删除用户
+                    api.delCustomShare(this.list[index].id).then(() => {
+                        this.list.splice(index, 1);
+                    })   
+                }
+            });
+        }
+
+    }
+}
+</script>
+  
+<style lang="less" scoped>
+.steps {
+    max-width: 950px;
+    margin: 16px auto;
+}
+
+.handler {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.title {
+    font-weight: bold;
+    margin-bottom: 14px;
+    font-size: 18px;
+}
+
+.title span {
+    padding: 0 10px;
+    border-left: 6px solid seagreen;
+}</style>
+  

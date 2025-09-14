@@ -189,7 +189,7 @@ export default {
         {
           title: "股市三人行", background: "#fff", width: 360, height: 640, components: "gssrx",
           name:"股市三人行",
-          scale:3, src: 'gssrx.png',
+          scale:3, src: 'gssrx1.png',
         },
         {
           title: "融通智盈", background: "#fff", width: 375.33, height: 621.33, components: "rtzy",

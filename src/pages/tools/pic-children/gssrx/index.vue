@@ -1,6 +1,6 @@
 <template>
     <div class="pr">
-        <img src="@/assets/image/gssrx.png" style="width: 100%;" alt="">
+        <img src="@/assets/image/gssrx1.png" style="width: 100%;" alt="">
         <div class="pb content-main flex align-center flex-column">
             <div class="title">{{ content.livetitle }}</div>
             <div class="content-item flex" v-for="(item,index) in content.list" :key="index">
@@ -56,7 +56,7 @@ export default {
     .title{
         font-size: 15px;
         font-weight: bold;
-        color: #d30e00;
+        color: #b2e4ff;
         line-height: 38px;
     }
 
@@ -64,7 +64,7 @@ export default {
         width: 100%;
         padding: 0 12px;
         font-size: 12px;
-        color: #d30e00;
+        color: #a0c0d2;
         font-weight: 400;
 
         .index{
@@ -76,8 +76,8 @@ export default {
             margin-top: 4px;
             font-size: 12px;
             border-radius: 50%;
-            background: #d30e00;
-            color: #fff;
+            background: #b2e4ff;
+            color: #013158;
         }
 
         &:not(:last-child){

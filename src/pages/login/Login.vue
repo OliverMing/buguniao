@@ -106,161 +106,24 @@ export default {
 
           api.login({
             account, pwd
-          }).then(({ user, auth }) => {
+          }).then(({ userInfo,permission }) => {
 
-            debugger;
-            
-            if (user) {
-              if (user.grade != 1 && (!auth || !auth.menu_list)) {
-                this.logging = false;
-                return this.$message.error("该账号权限不足，无法访问");
-              }
+            if (userInfo) {
+              // if (res.user.grade != 1) {
+              //   this.logging = false;
+              //   return this.$message.error("该账号权限不足，无法访问");
+              // }
               this.logging = false
               this.$message.success("登录成功")
-              this.setUser(user);
-              this.setRoles("admin")
-              setAuthorization({ token: "123456" })
-
-              const isInvisible = (key) => {
-                console.info(key,auth.menu_list,user.grade == 0 && !auth.menu_list.includes(key),)
-                return !user.grade && !auth.menu_list.includes(key);
+              this.setUser(userInfo);
+              this.setRoles("sale")
+              setAuthorization({ token: "123456" });
+              if(permission && permission.menu_list){
+                const permissionList = permission.menu_list.split(',');
+                this.$store.commit('account/setPermissions', permissionList);
               }
-
-              const routesConfig = [
-               
-                {
-                  path: '/',
-                  name: '首页',
-                  component: TabsView,
-                  redirect: '/login',
-                  children: [
-                    {
-                      path: 'work',
-                      name: '工作台',
-                      meta: {
-                        icon: 'dashboard',
-                        page: {
-                          cacheAble: false
-                        }
-                      },
-                      component: () => import('@/pages/work'),
-                    },
-                    {
-                      path: 'form',
-                      name: '调度中心',
-                      invisible: isInvisible('form'),
-                      meta: {
-                        icon: 'apartment',
-                        page: {
-                          cacheAble: false
-                        }
-                      },
-                      component: PageView,
-                      children: [
-                        {
-                          path: 'list',
-                          name: '资源池',
-                          invisible: isInvisible('form-list'),
-                          component: () => import('@/pages/resource/list-all'),
-                        },
-                        {
-                          path: 'record',
-                          name: '统计',
-                          invisible: isInvisible('form-record'),
-                          component: () => import('@/pages/resource/record'),
-                        },
-                      ]
-                    },
-                    {
-                      path: 'tools',
-                      name: '工具',
-                      invisible: isInvisible('tools'),
-                      meta: {
-                        icon: 'tool',
-                        page: {
-                          cacheAble: false
-                        }
-                      },
-                      component: PageView,
-                      children: [
-                        {
-                          path: 'workplace',
-                          name: '获客助手分享',
-                          invisible: isInvisible('tools-workplace'),
-                          component: () => import('@/pages/tools/share-link'),
-                        },
-                        {
-                          path: 'stubline',
-                          name: '短线精选策略H5',
-                          invisible: isInvisible('tools-stubline'),
-                          component: () => import('@/pages/tools/stubline'),
-                        },
-                        {
-                          path: 'share-content',
-                          name: '防微信文章分享',
-                          invisible: isInvisible('tools-share-content'),
-                          component: () => import('@/pages/tools/share-content'),
-                        },
-                        {
-                          path: 'pic',
-                          name: '制图器',
-                          invisible: isInvisible('tools-pic'),
-                          component: () => import('@/pages/tools/pic'),
-                        },
-                        // {
-                        //   path: 'ercode-url',
-                        //   name: '专属二维码生成器',
-                        //   invisible: isInvisible('tools-ercode-url'),
-                        //   component: () => import('@/pages/tools/ercode'),
-                        // },
-                        {
-                          path: 'more-ercode',
-                          name: '权重比例二维码',
-                          invisible: isInvisible('tools-more-ercode'),
-                          component: () => import('@/pages/tools/more-ercode'),
-                        },
-                        {
-                          path: 'game',
-                          name: '客户小游戏',
-                          invisible: isInvisible('tools-game'),
-                          component: () => import('@/pages/tools/game'),
-                        },
-                      ]
-                    },
-                    {
-                      path: 'user',
-                      name: '用户管理',
-                      invisible: isInvisible('user'),
-                      meta: {
-                        icon: 'user',
-                        page: {
-                          cacheAble: false
-                        }
-                      },
-                      component: PageView,
-                      children: [
-                        {
-                          path: 'user-list',
-                          name: '用户列表',
-                          invisible: isInvisible('user-list'),
-                          component: () => import('@/pages/user/list'),
-                        },
-                        {
-                          path: 'department',
-                          name: '部门管理',
-                          invisible: isInvisible('user-department'),
-                          component: () => import('@/pages/user/department'),
-                        },
-                      ]
-                    }
-                  ]
-                },
-              ]
-
-              // localStorage.setItem("route",JSON.stringify(routesConfig));
-
-              loadRoutes(routesConfig);
-              this.$router.push('/work')
+              // 跳转/dashboard/workplace
+              this.$router.push('/dashboard/workplace')
             } else {
               this.logging = false;
               this.$message.error("账号或密码错误");

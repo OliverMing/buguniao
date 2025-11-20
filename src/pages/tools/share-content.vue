@@ -10,7 +10,7 @@
             @ok="showErcode = false"
             @cancel="showErcode = fasle" >
               <div class="flex justify-center align-center">
-                <img  src="@/assets/image/share-ercode-content1.png" style="width:120px;"  />
+                <img  src="@/assets/image/share-ercode-shengang.png" style="width:120px;"  />
               </div>
             </a-modal>
 

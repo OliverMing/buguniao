@@ -4,7 +4,7 @@
             <a-form :form="form">
 
                 <a-tabs type="card" @change="callback">
-                    <a-tab-pane key="APP" tab="移动端权限">
+                    <!-- <a-tab-pane key="APP" tab="移动端权限">
                         <a-form-item label="是否禁止聊天">
                             <a-switch v-model="params.is_no_chat" />
                         </a-form-item>
@@ -13,7 +13,7 @@
                             <a-tree checkable v-model="params.visible_list" :auto-expand-parent="true"
                                 :tree-data="departmentList" />
                         </a-form-item>
-                    </a-tab-pane>
+                    </a-tab-pane> -->
                     <a-tab-pane key="WEB" tab="WEB端权限">
                         <a-form-item label="菜单可见权限">
                             <!-- <div :style="{ borderBottom: '1px solid #E9E9E9','marginBottom':'10px' }">
@@ -21,10 +21,19 @@
                             </div>
                             <a-checkbox-group v-model="params.menu_list" name="checkboxgroup" :options="options"
                             :default-value="[2]" @change="onChange" /> -->
-                            <a-tree v-model="params.menu_list" checkable :expanded-keys="expandedKeys"
+                            <!-- <a-tree v-model="params.menu_list" checkable :expanded-keys="expandedKeys"
                                 :auto-expand-parent="autoExpandParent" :selected-keys="selectedKeys" :tree-data="treeData"
-                                @expand="onExpand" @select="onSelect" />
+                                @expand="onExpand" @select="onSelect" /> -->
 
+                                <!-- <div v-for="(item,index) in treeData" :key="index">
+                                    <div>{{ item.title }}</div>
+                                    <div class="flex flex-wrap">
+                                        <div v-for="(item2,index2) in item.children" :key="`${index}-${index2}`">
+                                            <a-checkbox :value="item2.key" v-model="params.menu_list">{{ item2.title }}</a-checkbox>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <a-checkbox-group v-model="params.menu_list" name="checkboxgroup" :options="menuOptions" />
                         </a-form-item>
                     </a-tab-pane>
                 </a-tabs>
@@ -47,39 +56,70 @@ const treeData = [
         title: '调度中心',
         key: 'form',
         children: [
-            { title: '资源池', key: 'form-list' },
-            { title: '统计', key: 'form-record' },
+            { title: '调度中心', key: 'form' },
+            { title: '资源池', key: 'pool' },
+            { title: '统计', key: 'pool-statistics' },
         ],
     },
     {
         title: '工具',
         key: 'tools',
         children: [
-            { title: '获客助手', key: 'tools-workplace' },
-            { title: '短线精选策略', key: 'tools-stubline' },
-            { title: '防微信文章分享', key: 'tools-share-content' },
-            { title: '制图助手', key: 'tools-pic' },
-            { title: '专属二维码生成器', key: 'tools-ercode-url' },
-            { title: '权重比例二维码', key: 'tools-more-ercode' },
-            { title: '客户小游戏', key: 'tools-game' },
-
+            { title: '工具', key: 'tools' },
+            { title: '制图助手', key: 'pic' },
+            { title: '防微信文章分享', key: 'share-content' },
+            { title: '权重比例二维码', key: 'more-ercode' },
+            { title: '获客助手分享', key: 'share-link' },
+            // { title: '获客助手', key: 'tools-workplace' },
+            // { title: '短线精选策略', key: 'tools-stubline' },
+            // { title: '专属二维码生成器', key: 'tools-ercode-url' },
+            // { title: '客户小游戏', key: 'tools-game' },
         ],
     },
     {
         title: '用户管理',
         key: 'user',
         children: [
+            { title: '用户管理', key: 'user' },
             { title: '用户列表', key: 'user-list' },
-            { title: '部门管理', key: 'user-department' },
+            { title: '部门管理', key: 'department' },
+        ],
+    },
+    {
+        title: '聊天室',
+        key: 'chat',
+        children: [
+            { title: '聊天室', key: 'chat' },
+            { title: '聊天室管理', key: 'chatroom' },
+            { title: '聊天室用户管理', key: 'chatroom-user' },
+            { title: '聊天室角色管理', key: 'chatroom-role' },
         ],
     },
 ]
 
+const menuOptions = [
+  { label: '调度中心', value: 'form' },
+  { label: '资源池', value: 'pool' },
+  { label: '统计', value: 'pool-statistics' },
+  { label: '工具', value: 'tools' },
+  { label: '制图助手', value: 'pic' },
+  { label: '防微信文章分享', value: 'share-content' },
+  { label: '权重比例二维码', value: 'more-ercode' },
+  { label: '获客助手分享', value: 'share-link' },
+  { label: '用户管理', value: 'user' },
+  { label: '用户列表', value: 'user-list' },
+  { label: '部门管理', value: 'department' },
+  { label: '聊天室', value: 'chat' },
+  { label: '聊天室管理', value: 'chatroom' },
+  { label: '聊天室用户管理', value: 'chatroom-user' },
+  { label: '聊天室角色管理', value: 'chatroom-role' }
+];
 
 export default {
     data() {
         return {
             loading: false,
+            menuOptions,
             params: {
                 visible_list: [], //昵称
                 menu_list: [], // 菜单权限
@@ -126,7 +166,9 @@ export default {
 
         // 获取权限列表
         getlimitList: function () {
+            debugger;
             api.GetLimitById(this.id).then(data => {
+                debugger;
                 if (data) {
                     const { is_no_chat, visible_list, menu_list } = data;
                     this.params.is_no_chat = Number(is_no_chat);
@@ -139,6 +181,8 @@ export default {
                     }
 
                     if (menu_list) {
+                        debugger;
+                        var d = menu_list.split(',');
                         this.params.menu_list = menu_list.split(',');
                     }
                 }
@@ -170,33 +214,11 @@ export default {
 }
 </script>
     
-<style lang="css">
-.ant-modal-body {
-    padding: 0 !important;
+<style lang="css" scoped>
+
+>>>.ant-form-item label{
+    margin-bottom: 6px;
 }
 
-.ant-card-body {
-    padding: 0;
-}
-
-.ant-modal-header {
-    border-bottom: none !important;
-}
-
-.ant-form-item {
-    padding: 0 20px;
-}
-
-.form>>>.ant-form-item {
-    margin-bottom: 10px !important;
-}
-
-/* .form {
-    margin: -20px !important;
-} */
-
-.form>>>.ant-form-item-label {
-    line-height: 25px;
-}
 </style>
     

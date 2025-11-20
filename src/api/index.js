@@ -2,7 +2,7 @@ import { http } from './request'
 
 export default {
     // 用户登录
-    login:(params) => http('/Anp/AdminLogin','POST',params),
+    login:(params) => http('/Admin/Login','POST',params),
     // 获取所有资源池
     GetAllResourceList:() => http('/Anp/GetAllResourceList','GET'),
     // 获取资源池列表
@@ -57,15 +57,31 @@ export default {
 
     // 禁用与启用二维码
     forbitErcode:(id) => http(`/Admin/forbitErcode?id=${id}`,'GET'),
-    
-    
-
     // 获取比例权重二维码列表
     GetRatioErcodeList:(channel) => http(`/Admin/GetRatioErcodeList?channel=${channel}`,'GET'),
     // 删除比例权重二维码
     DeleteRationErcode:(id) => http(`/Admin/DeleteRationErcode?id=${id}`,'GET'),
     // 获取分组列表
     GetGroupList:() => http(`/Admin/GetGroupList`,'GET'),
+
+    getLiveRoomList:() => http(`/Admin/getLiveRoomList`,'GET'),
+   
+    updateLiveRoom:(params) => http(`/Admin/updateLiveRoom`,'POST',params),
+    deleteLiveRoom:(code) => http(`/Admin/DeleteLiveRoom?code=${code}`,'GET'),
+    changeForbitStatus:(params) => http(`/Admin/ChangeForbitStatus`,'POST',params),
+
+
+    getliveChatList:(params) => http(`/Admin/GetliveChatList`,'POST',params),
+    updateLiveChat:(params) => http(`/Admin/UpdateLiveChat`,'POST',params),
+    deleteLiveChat:(id) => http(`/Admin/DeleteLiveChat?id=${id}`,'GET'),
+
+    // 新增消息
+    InsertMessage:(params) => http(`/Live/InsertChat`,'POST',params),
+    // 获取存在角色的用户列表
+    GetRoleUserList:() => http(`/Admin/GetRoleUserList`,'POST'),
+   
+
+
 
      // 获取部门列表
      GetAllDepartmentList:() => http(`/Admin/GetDepartmentList`,'GET'),
@@ -75,15 +91,52 @@ export default {
      GetLimitById:(id) => http(`/Admin/GetLimitById?id=${id}`,'GET'),
      // 设置权限
      SetLimitById:(params) => http(`/Admin/SetLimitById`,'POST',params),
-
-
     // 获取获客助手列表
     GetCustomShareList:(type = 0,pageId,pageSize) => http(`/Anp/GetCustomShareList?type=${type}&pageId=${pageId}&pageSize=${pageSize}`,'POST'),
     // 删除获客助手
     delCustomShare:(id) => http(`/Anp/delCustom?id=${id}`,'POST'),
     // 设置获客助only
     setCustomOnly:(id,status) => http(`/Anp/setOnlyCustom?id=${id}&status=${status}`,'GET'),
-
     // 获取获客助手列表
     getRationErcodeUserList:(params) => http(`/Admin/GetRationErcodeUserList`,'POST',params),
+    // 获取聊天室用户列表
+    GetLiveUserList:(pageId,pageSize) => http(`/Admin/GetLiveUserList?pageId=${pageId}&pageSize=${pageSize}`,'POST'),
+
+
+    // 设置用户黑名单状态
+    SetUserBlackStatus:(id,status) => http(`/Admin/SetUserBlackStatus?chat_id=${id}&is_black=${status}`,'POST'),
+    // 更新聊天室用户信息
+    UpdateLiveUser:(params) => http(`/Admin/UpdateLiveUsersInfo`,'POST',params),
+     // 新增聊天室用户
+    InsertLiveUser:(params) => http(`/Admin/InsertLiveUser`,'POST',params),
+    // 获取聊天室角色列表
+    GetLiveRoleList:() => http(`/Admin/GetLiveRoleList`,'GET'),
+    // 新增聊天室角色
+    AddLiveRole:(params) => http(`/Admin/InsertLiveRole`,'POST',params),
+    // 更新聊天室角色
+    UpdateLiveRole:(params) => http(`/Admin/UpdateLiveRole`,'POST',params),
+    // 删除聊天室角色
+    DeleteLiveRole:(id) => http(`/Admin/DeleteLiveRole?id=${id}`,'GET'),
+
+    // 查询战绩回顾
+    SelectLivePerformance:(id) => http(`/Admin/SelectLivePerformance?id=${id}`,'GET'),
+    // 编辑战绩回顾
+    UpdateLivePerformance:(params) => http(`/Admin/UpdateLivePerformance`,'POST',params),
+
+    // 更新聊天室
+    UpdateLiveRoom:(params) => http(`/Admin/UpdateLiveRoom`,'POST',params),
+    // 新增聊天室
+    AddLiveRoom:(params) => http(`/Admin/AddLiveRoom`,'POST',params),
+
+    // 获取聊天室在线人数
+    GetOnlineChatNumber:code => http(`/webSocket/GetOnlineChatNumber?code=${code}`,'GET'),
+
+    // 获取每日福利推送列表
+    GetLiveRoomEaeryList:(code) => http(`/Admin/GetLiveRoomEaeryList?code=${code}`,'GET'),
+    // 新增每日福利
+    AddLiveRoomEaery:(params) => http(`/Admin/AddLiveRoomEaery`,'POST',params),
+    // 删除每日福利
+    DeleteLiveRoomEaery:(id) => http(`/Admin/DeleteLiveRoomEaery?id=${id}`,'GET'),
+    // 更新每日福利
+    UpdateLiveRoomEaery:(params) => http(`/Admin/UpdateLiveRoomEaery`,'POST',params),
 }

@@ -1,15 +1,16 @@
 <template>
   <div class="page-layout">
-    <page-header ref="pageHeader" :style="`margin-top: ${multiPage ? 0 : -24}px`" :breadcrumb="breadcrumb" :title="pageTitle" :logo="logo" :="avatar">
-      <slot name="action"  slot="action"></slot>
-      <slot slot="content" name="headerContent"></slot>
-      <div slot="content" v-if="!this.$slots.headerContent && desc">
+    <page-header ref="pageHeader" :style="`margin-top: ${multiPage ? 0 : -24}px`" 
+    :breadcrumb="breadcrumb" :title="pageTitle" :logo="logo" :avatar="avatar">
+      <!-- <slot name="action"  slot="action"></slot> -->
+      <!-- <slot slot="content" name="headerContent"></slot> -->
+      <!-- <div slot="content" v-if="!this.$slots.headerContent && desc">
         <p>{{desc}}</p>
         <div v-if="this.linkList" class="link">
           <a v-for="(link, index) in linkList" :key="index" :href="link.href"><a-icon :type="link.icon" />{{link.title}}</a>
         </div>
-      </div>
-      <slot v-if="this.$slots.extra" slot="extra" name="extra"></slot>
+      </div> -->
+      <!-- <slot v-if="this.$slots.extra" slot="extra" name="extra"></slot> -->
     </page-header>
     <div ref="page" :class="['page-content', layout, pageWidth]" >
       <slot></slot>

@@ -10,18 +10,16 @@
           </div>
           <span style="font-size: 32px;color: #FFF;font-weight: bold;">模型内参</span>
       </div>
-      <img src="@/assets/image/mxnc_top2.png" />
+      <img style="border-radius: 6px;" src="@/assets/image/mxnc_top3.png" />
     </div>
     <div class="content flex align-center">
-      <img style="height: 300px;" src="@/assets/image/mxnc1.png" />
+      <img style="height: 300px;" src="@/assets/image/mxnc-rtzs.png" />
       <img v-if="content" :src="content" style="height: 300px;">
     </div>
     <div class="tips">
       以上内容仅作为模型案例学习，不构成买卖操作建议，股市有风险，投资需谨慎
     </div>
     <!-- 日期 -->
-
-
 
   </div>
 </template>

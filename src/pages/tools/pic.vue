@@ -239,6 +239,7 @@ export default {
           components:"zkyb", 
           name:"智库研报",
           editor:true,
+          noButton:true,
           scale:3, src: 'zkyb.png',
         },
         {
@@ -397,6 +398,7 @@ export default {
     // 选择模板
     chooseTemple: function (index) {
       this.info = this.list[index];
+      this.content = null;
       // this.chooseItemIndex = i;
       // this.activeKey = [index];
       // localStorage.setItem('chooseCache', JSON.stringify({

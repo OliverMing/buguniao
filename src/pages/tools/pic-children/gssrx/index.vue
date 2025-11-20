@@ -1,6 +1,6 @@
 <template>
     <div class="pr">
-        <img src="@/assets/image/gssrx1.png" style="width: 100%;" alt="">
+        <img src="@/assets/image/gssrx2.png" style="width: 100%;" alt="">
         <div class="pb content-main flex align-center flex-column">
             <div class="title">{{ content.livetitle }}</div>
             <div class="content-item flex" v-for="(item,index) in content.list" :key="index">

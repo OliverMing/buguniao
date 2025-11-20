@@ -2,23 +2,24 @@
   <!-- 正文 -->
   <div class="bg-box">
     <div class="top-box flex align-center justify-center">
-      <span class="top-span">市场深度解析</span>
+      <span class="top-span">
+        <img style="width: 170px;" src="@/assets/image/top-pgyb.png" />
+      </span>
       <div class="time flex justify-center align-center flex-column">
         <div>{{ timeSplit(false) }}</div>
         <div class="time2">{{ timeSplit(true) }}</div>
       </div>
       <span class="top-span">教学案例</span>
       <div class="flex right-logo">
-        <div>申睿</div>
-        <div>智胜</div>
+        <img style="width: 170px;" src="@/assets/image/top-srzs.png" />
       </div>
     </div>
     <div class="content flex align-center">
-      <img style="height: 300px;" src="@/assets/image/jxal.png" />
+      <img style="height: 300px;" src="@/assets/image/jxal1.png" />
       <img v-if="content" :src="content" style="height: 300px;">
     </div>
     <div class="tips">
-      以上内容仅作为模型案例学习，不构成买卖操作建议，申睿智胜 证券服务标杆企业 投资有风险，入市需谨慎
+      本产品风险级别为RA，适合积极型及以上级别客户使用，观点及历史案例仅供参考，不作为投资建议，据此操作风险自担，投资有风险，入市需谨慎。【申港申享世家【申睿智胜）投资顾问团队：罗力川执业证编号S1660625040010
     </div>
     <!-- 日期 -->
 
@@ -63,7 +64,7 @@ export default {
 
 .right-logo{
    margin-left: 20px;
-   background-color: #FFF;
+   /* background-color: #FFF; */
 
    div{
     width: max-content;
@@ -99,6 +100,7 @@ export default {
 .content{
   border-radius:6px;
   overflow-x: hidden;
+  background-color: #fff;
 
   img:first-child{
     border: 2px solid #f6c999;
@@ -120,14 +122,14 @@ export default {
 } */
 
 .time {
-  border: 1px solid rgba(255,255,255,.5);
+  border: 1px solid rgba(255,255,255,.3);
   width: max-content;
-  padding: 4px 10px;
   font-weight: bold;
   color: #fff;
   font-size: 1em;
-  border-radius: 6px;
   margin: 0 20px;
+  overflow: hidden;
+  border-radius: 4px;
 
   div {
     /* padding: 0 10px; */
@@ -141,9 +143,9 @@ export default {
 
 .time2 {
   color: #000;
-  background-color: #efd268;
-  font-size: 0.7em;
-  padding: 0 8px;
+  background-color: #ccc;
+  font-size: 1em;
+  padding: 2px 16px;
 }
 
 .tips {
@@ -151,5 +153,7 @@ export default {
   font-size: 10px;
   padding: 10px 0;
   text-align: center;
+  max-width: 670px;
+  margin: 0 auto;
 }
 </style>

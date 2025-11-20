@@ -1,6 +1,6 @@
 <template>
     <div class="w-100 h-100 pr">
-      <img class="w-100" :src="require(`@/assets/image/live_bg.jpg`)" alt="">
+      <img class="w-100" :src="require(`@/assets/image/live_bg1.png`)" alt="">
       <div class="pa theme-title">
         <i>{{ content.title }}</i>
       </div>
@@ -31,7 +31,7 @@
       </div> -->
 
       <div class="pa flex justify-center align-center flex-column tips">
-        {{ content.tips }}
+        <!-- {{ content.tips }} -->
       </div>
     </div>
 </template>

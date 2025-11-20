@@ -20,6 +20,7 @@ export default {
     menuData: [],
     activatedFirst: undefined,
     customTitles,
+    socketStatus:false,
     ...config,
     ...localSetting
   },
@@ -52,6 +53,11 @@ export default {
     }
   },
   mutations: {
+
+    setSocketStatus(state, status) {
+      state.socketStatus = status
+    },
+
     setDevice (state, isMobile) {
       state.isMobile = isMobile
     },

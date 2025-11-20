@@ -96,7 +96,7 @@ export default {
   
   <style lang="css" scoped>
   .form >>> .ant-form-item{margin-bottom: 10px !important;}
-  .form {margin: -20px !important;}
+  /* .form {margin: -20px !important;} */
   .form >>> .ant-form-item-label{line-height: 25px;}
   </style>
   

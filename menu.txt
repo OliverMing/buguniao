@@ -1,0 +1,19 @@
+form 调度中心
+pool 资源池
+pool-statistics 统计
+
+tools 工具
+pic 作图小工具
+share-content 防微信文章分享
+more-ercode 权重比例二维码
+share-link 获客助手分享
+user 用户管理
+user-list 用户列表
+department 部门管理
+
+
+chat 聊天室
+chatroom 聊天室管理
+chatroom-user 聊天室用户管理
+chatroom-role 聊天室角色管理
+

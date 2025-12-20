@@ -175,12 +175,12 @@ export default {
       name: "反弹先锋1号就买它",
 
       list:[
-        {
-          title: "逻辑交易体系",
-          width: 360, height: 639, components: "ljjytx",
-          name:"逻辑交易体系",
-          scale:3, src: 'ljjytx-red.png',
-        },
+        // {
+        //   title: "逻辑交易体系",
+        //   width: 360, height: 639, components: "ljjytx",
+        //   name:"逻辑交易体系",
+        //   scale:3, src: 'ljjytx-red.png',
+        // },
         {
           title: "金仓财道",
           width: 360, height: 735, components: "jccd",
@@ -203,26 +203,26 @@ export default {
           scale: 4,
           src:'jxal.png',
         },
-        {
-          title: "红七月", background: "#e3d1bb", width: '', height: '', components: "tsfa", scale: 4,
-          isVertical:true,
-          src:'hqy.png',
-        },
-        {
-          title: "模型内参", background: "#e3d1bb", width: '', height: '', components: "mxnc", scale: 4,
-          src:'mxnc-rtzs1.png',
-          tips: "单张图,尽量保证单张图宽高比 1.5:1",
-        },
-        {
-          title: "股市三人行", background: "#fff", width: 360, height: 640, components: "gssrx",
-          name:"股市三人行",
-          scale:3, src: 'gssrx1.png',
-        },
-        {
-          title: "融通智盈", background: "#fff", width: 375.33, height: 621.33, components: "rtzy",
-          name:"融通智盈",
-          scale:2, src: 'rtzy.jpg',
-        },
+        // {
+        //   title: "红七月", background: "#e3d1bb", width: '', height: '', components: "tsfa", scale: 4,
+        //   isVertical:true,
+        //   src:'hqy.png',
+        // },
+        // {
+        //   title: "模型内参", background: "#e3d1bb", width: '', height: '', components: "mxnc", scale: 4,
+        //   src:'mxnc-rtzs1.png',
+        //   tips: "单张图,尽量保证单张图宽高比 1.5:1",
+        // },
+        // {
+        //   title: "股市三人行", background: "#fff", width: 360, height: 640, components: "gssrx",
+        //   name:"股市三人行",
+        //   scale:3, src: 'gssrx1.png',
+        // },
+        // {
+        //   title: "融通智盈", background: "#fff", width: 375.33, height: 621.33, components: "rtzy",
+        //   name:"融通智盈",
+        //   scale:2, src: 'rtzy.jpg',
+        // },
         {
           title: "短线金股", background: "#fff", width: 391, height: 733.5, components: "dxjg",
           name:"短线金股",
@@ -248,11 +248,11 @@ export default {
           name:"早盘精选",
           scale:2, src: 'zpjx1.png',
         },
-        {
-          title: "每日金股", background: "#e78546", width: 420, height: 740, components: "mrjg",
-          name:"每日金股",
-          scale:1, src: 'mrjg.jpg',
-        },
+        // {
+        //   title: "每日金股", background: "#e78546", width: 420, height: 740, components: "mrjg",
+        //   name:"每日金股",
+        //   scale:1, src: 'mrjg.jpg',
+        // },
         {
           title: "短线策略", background: "#e78546",
           components:"dxcl", 
@@ -261,27 +261,27 @@ export default {
           width: 329, height: 585,
           scale:2, src: 'dxcl.jpg',
         },
-        {
-          title: "智库研报", background: "#e78546",
-          components:"zkyb", 
-          name:"智库研报",
-          editor:true,
-          noButton:true,
-          scale:3, src: 'zkyb.png',
-        },
-        {
-          title: "金牛系列", background: "#e78546", width: 426.7, height: 695, components: "jinniu",
-          name:"金牛",
-          scale:3, src: 'jinniu.png',
-        },
-        {
-          title: "直播封面", background: "#e3d1bb", width: 518.3333, height: 277.3333, components: "live", scale: 3,
-          src:'live_bg.jpg'
-        },
-        {
-          title: "锵锵三人行", background: "#e3d1bb", width: 375, height: 637, components: "people", scale: 2,
-          src:'people.png'
-        },
+        // {
+        //   title: "智库研报", background: "#e78546",
+        //   components:"zkyb", 
+        //   name:"智库研报",
+        //   editor:true,
+        //   noButton:true,
+        //   scale:3, src: 'zkyb.png',
+        // },
+        // {
+        //   title: "金牛系列", background: "#e78546", width: 426.7, height: 695, components: "jinniu",
+        //   name:"金牛",
+        //   scale:3, src: 'jinniu.png',
+        // },
+        // {
+        //   title: "直播封面", background: "#e3d1bb", width: 518.3333, height: 277.3333, components: "live", scale: 3,
+        //   src:'live_bg.jpg'
+        // },
+        // {
+        //   title: "锵锵三人行", background: "#e3d1bb", width: 375, height: 637, components: "people", scale: 2,
+        //   src:'people.png'
+        // },
         {
           title: "深夜研报1", background: "#e3d1bb", width: 640, height: 360, components: "temple20", scale: 4,
           src:'a.jpg',
@@ -294,19 +294,19 @@ export default {
           tips: "需要上传两张图,尽量保证每张图片宽高比 1.6:1",
           editor: true
         },
-        {
-          title: "战绩统计一", background: "#e3d1bb", width: 640, height: 350, components: "grfs1", scale: 4,
-          src: '1.png',
-        },
-        {
-          title: "战绩统计二", background: "#e78546", width: 296, height: 444, components: "grfs2",
-          scale: 2, src: '2.png',
-        },
-        {
-          title: "战绩统计三", background: "#e78546", width: 420, height: 701, components: "grfs4",
-          name:"冲锋",
-          scale: 1, src: '4.png',
-        },
+        // {
+        //   title: "战绩统计一", background: "#e3d1bb", width: 640, height: 350, components: "grfs1", scale: 4,
+        //   src: '1.png',
+        // },
+        // {
+        //   title: "战绩统计二", background: "#e78546", width: 296, height: 444, components: "grfs2",
+        //   scale: 2, src: '2.png',
+        // },
+        // {
+        //   title: "战绩统计三", background: "#e78546", width: 420, height: 701, components: "grfs4",
+        //   name:"冲锋",
+        //   scale: 1, src: '4.png',
+        // },
         {
           title: "价值超短", background: "#e3d1bb", width: 720, height: 398, components: "grfs3", scale: 4,
           src: 'p1.png',

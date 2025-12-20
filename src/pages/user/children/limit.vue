@@ -111,8 +111,10 @@ const menuOptions = [
   { label: '部门管理', value: 'department' },
   { label: '聊天室', value: 'chat' },
   { label: '聊天室管理', value: 'chatroom' },
+  { label: '私聊消息列表', value: 'chatroom-single-msg-list' },
   { label: '聊天室用户管理', value: 'chatroom-user' },
-  { label: '聊天室角色管理', value: 'chatroom-role' }
+  { label: '聊天室角色管理', value: 'chatroom-role' },
+  { label: '聊天室分享配置', value: 'chatroom-share-config' }
 ];
 
 export default {
@@ -166,9 +168,7 @@ export default {
 
         // 获取权限列表
         getlimitList: function () {
-            debugger;
             api.GetLimitById(this.id).then(data => {
-                debugger;
                 if (data) {
                     const { is_no_chat, visible_list, menu_list } = data;
                     this.params.is_no_chat = Number(is_no_chat);
@@ -181,7 +181,6 @@ export default {
                     }
 
                     if (menu_list) {
-                        debugger;
                         var d = menu_list.split(',');
                         this.params.menu_list = menu_list.split(',');
                     }

@@ -13,7 +13,7 @@
       <img style="border-radius: 6px;" src="@/assets/image/mxnc_top3.png" />
     </div>
     <div class="content flex align-center">
-      <img style="height: 300px;" src="@/assets/image/mxnc-rtzs.png" />
+      <img style="height: 300px;" src="@/assets/image/mxnc-rtzs1.png" />
       <img v-if="content" :src="content" style="height: 300px;">
     </div>
     <div class="tips">

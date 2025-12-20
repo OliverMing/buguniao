@@ -5,18 +5,22 @@
       <div class="flex align-center" style="margin-bottom:20px">
          <!-- 获取store setting setSocketStatus的值: -->
          <div :class="['socket-status', socketStatus ? 'socket-status-online' : 'socket-status-offline']"></div>
-        <a-button type="primary" @click="showAddResource = true" size="midden">新增聊天室</a-button>
+        <a-button type="primary" @click="$refs.addChatRoom.open()" size="midden">新增聊天室</a-button>
       </div>
 
       <a-tabs v-model="groupCurrent" type="card" @change="callback">
-        <a-tab-pane v-for="(item, index) in groupList" :key="index" :tab="`${item.code}`">
+        <a-tab-pane v-for="(item, index) in groupList" :key="index">
+          <span slot="tab">
+            <a-icon type="sketch" v-if="item.is_vip_room == 1" />
+            {{ item.room_name || item.code }}
+          </span>
           <a-tabs style="margin-top: -10px;">
             <a-tab-pane key="1" tab="消息管理">
               <div>
                 <!-- 新增消息 -->
                 <a-button type="primary" class="mr-10" size="midden" @click="$refs.addMessage.open()">新增消息</a-button>
                 <!-- 修改当前聊天室 -->
-                <a-button type="primary" class="mr-10" size="midden" @click="updateRoom(item)">修改聊天室</a-button>
+                <a-button type="primary" class="mr-10" size="midden" @click="$refs.addChatRoom.open(item)">修改聊天室</a-button>
                 <!-- 战绩回顾 -->
                 <a-button type="primary" class="mr-10" size="midden"
                   @click="$refs.performanceModel.open()">战绩回顾</a-button>
@@ -83,31 +87,7 @@
         </a-tab-pane>
       </a-tabs>
     </a-card>
-
-    <!-- 新增或者修改聊天室 -->
-    <a-modal :title="`${chatRoomForm.id ? '修改' : '新增'}聊天室`" centered width="460px" :footer="null"
-      @cancel="showAddResource = false" :visible="showAddResource">
-      <div>
-        <a-form-model ref="ruleForm" @submit="onSubmit" :model="chatRoomForm" :rules="rules" @submit.native.prevent>
-          <a-form-model-item label="房间号" prop="code">
-            <a-input :disabled="chatRoomForm.id != null" placeholder="请输入房间号(如：123456)" v-model="chatRoomForm.code"
-              maxlength="6" />
-          </a-form-model-item>
-        </a-form-model>
-        <!-- 有效期多少天 -->
-        <a-form-model-item label="有效期多少天" prop="validity">
-          <a-input placeholder="请输入有效期多少天" v-model="chatRoomForm.validity" maxlength="3" />
-        </a-form-model-item>
-        <!-- 通知 -->
-        <a-form-model-item label="通知公告" prop="notice_message">
-          <a-input placeholder="请输入通知公告" v-model="chatRoomForm.notice_message" />
-        </a-form-model-item>
-        <a-form-model-item style="margin-top: 24px">
-          <a-button type="primary" htmlType="submit" :loading="uploading" @click="onSubmit">提交</a-button>
-        </a-form-model-item>
-      </div>
-    </a-modal>
-
+    
     <template v-if="groupList.length > 0">
       <!-- 战绩回顾 -->
       <PerformanceModel ref="performanceModel" :roomId="groupList[groupCurrent].id" />
@@ -116,8 +96,7 @@
         @send="sendMessage" />
     </template>
 
-
-
+    <AddChatRoom ref="addChatRoom" @success="getLiveRoomList" />
 
   </div>
 </template>
@@ -129,12 +108,14 @@ import PerformanceModel from './PerformanceModel'
 import AddMessage from './AddMessage'
 import EaeryDayBenefit from './EaeryDayBenefit'
 import { mapState } from 'vuex';
+import AddChatRoom from './AddChatRoom'
 
 export default {
   components: {
     PerformanceModel,
     AddMessage,
-    EaeryDayBenefit
+    EaeryDayBenefit,
+    AddChatRoom
   },
   data() {
 
@@ -147,18 +128,9 @@ export default {
       groupList: [],
       groupCurrent: 0,
       showGroup: false,
-      chatRoomForm: {
-        id: null,
-        code: null,
-        validity: null,
-        notice_message: null,
-      },
+      
       visibleHandler: false,
-      rules: {
-        code: { required: true, message: '请输入房间号' },
-        notice_message: { required: true, message: '请输入通知公告' },
-        validity: { required: true, message: '请输入有效期多少天' },
-      },
+      
       listPwd: null,
       list: null, // 列表
       total: 0, // 总数
@@ -225,14 +197,6 @@ export default {
       }
     },
 
-    updateRoom(item) {
-      Object.keys(this.chatRoomForm).forEach(key => {
-        this.chatRoomForm[key] = item[key];
-      });
-      this.showAddResource = true;
-    },
-
-
     // 禁止、允许发言
     changeForbitStatus(index) {
       api.changeForbitStatus({
@@ -255,23 +219,6 @@ export default {
       this.$refs.customListModel.open(id);
     },
 
-    onSubmit: function () {
-      this.$refs.ruleForm.validate(valid => {
-        if (valid) {
-          api[this.chatRoomForm.id ? 'UpdateLiveRoom' : 'AddLiveRoom'](this.chatRoomForm).then(() => {
-            this.$message.success('执行成功');
-            this.showAddResource = false;
-            this.chatRoomForm = {
-              id: null,
-              code: null,
-              validity: null,
-              notice_message: null,
-            }
-            this.getLiveRoomList();
-          })
-        }
-      })
-    },
 
     changePageId: function (e) {
       this.pageId = e;
@@ -304,7 +251,7 @@ export default {
 
     // 获取聊天室列表
     getLiveRoomList: function () {
-      api.getLiveRoomList().then(data => {
+      api.getLiveRoomList(this.$store.state.account.user.id).then(data => {
         this.groupList = data;
         this.isBan = Number(this.groupList[this.groupCurrent].forbit_chat);
         this.queryList();
@@ -313,8 +260,9 @@ export default {
     },
 
     getOnlineChatNumber() {
-      api.GetOnlineChatNumber(this.groupList[this.groupCurrent].code).then(res => {
-        this.onlineCountList = res;
+      const code = this.groupList[this.groupCurrent].code;
+      api.GetOnlineChatNumber(code).then(res => {
+        this.onlineCountList = res.data;
       })
     },
 

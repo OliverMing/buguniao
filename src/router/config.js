@@ -93,11 +93,36 @@ const options = {
           children: [
             {
               path: 'chatroom',
-              name: '聊天室管理',
+              name: '群聊天室管理',
               component: () => import('@/pages/chat/chatroom/index'),
               meta:{
                 authority: {
                   permission: 'chatroom'
+                }
+              }
+            },
+            {
+              path: 'chatroom-single',
+              name: '私聊聊天室管理',
+              component: () => import('@/pages/chat/chatroom-single/index')
+            },
+            {
+              path: 'chatroom-single-msg-list',
+              name: '私聊消息列表',
+              component: () => import('@/pages/chat/chatroom-single-msg-list/index'),
+              meta:{
+                authority: {
+                  permission: 'chatroom-single-msg-list'
+                }
+              }
+            },
+            {
+              path: 'chatroom-share-config',
+              name: '聊天室分享配置',
+              component: () => import('@/pages/chat/chatroom-share-config/index'),
+              meta:{
+                authority: {
+                  permission: 'chatroom-share-config'
                 }
               }
             },

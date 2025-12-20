@@ -1,7 +1,19 @@
 <template>
   <div class="form">
     <a-card :bordered="false">
+      
       <a-form :form="form">
+
+
+        <!-- 头像 -->
+        <a-form-item label="头像">
+          <UploadImage v-model="params.head_img" style="margin-top: 10px;" />
+        </a-form-item>
+
+        <a-form-item label="聊天室显示名称">
+          <a-input placeholder="聊天室显示名称" v-model="params.chatroom_name" />
+        </a-form-item>
+
         <a-form-item label="登录账号">
           <a-input :disabled="params.id != null" placeholder="请输入用户登录账号" v-model="params.account" />
         </a-form-item>
@@ -51,6 +63,8 @@ export default {
       params: {
         nick_name: null, //昵称
         account: null, //账号
+        head_img:null, //头像
+        chatroom_name:null, //聊天室显示名称
         pwd: null, //密码
         department:null, //部门
         phone: null, //手机号

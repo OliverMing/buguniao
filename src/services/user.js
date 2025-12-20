@@ -51,6 +51,14 @@ export function logout() {
   localStorage.removeItem(process.env.VUE_APP_ROLES_KEY)
   localStorage.removeItem(process.env.VUE_APP_USER_KEY)
   removeAuthorization()
+  // 清除ws连接
+
+  if(window.wsManager){
+    window.wsManager.close();
+    setTimeout(() => {
+      window.wsManager = null;
+    }, 1000);
+  }
 }
 export default {
   login,

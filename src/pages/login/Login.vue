@@ -67,15 +67,9 @@
 
 <script>
 import CommonLayout from '@/layouts/CommonLayout'
-// import {login, getRoutesConfig} from '@/services/user'
 import { setAuthorization } from '@/utils/request'
-import { loadRoutes } from '@/utils/routerUtil'
 import { mapMutations } from 'vuex'
-
-import TabsView from '@/layouts/tabs/TabsView'
-import PageView from '@/layouts/PageView'
-import BlankView from '@/layouts/BlankView'
-
+import WebSocketManager from '@/utils/websocket'
 import api from '@/api'
 
 export default {
@@ -92,6 +86,12 @@ export default {
   computed: {
     systemName() {
       return this.$store.state.setting.systemName
+    }
+  },
+  created() {
+    // 若果存在用户信息，直接跳转
+    if (this.$store.state.account.user) {
+      this.$router.push('/dashboard/workplace')
     }
   },
   methods: {
@@ -123,7 +123,8 @@ export default {
                 this.$store.commit('account/setPermissions', permissionList);
               }
               // 跳转/dashboard/workplace
-              this.$router.push('/dashboard/workplace')
+              window.location.href = `${window.origin}/admin/#/dashboard/workplace`;
+              location.reload();
             } else {
               this.logging = false;
               this.$message.error("账号或密码错误");

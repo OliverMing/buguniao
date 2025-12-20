@@ -64,13 +64,11 @@ export default {
     // 获取分组列表
     GetGroupList:() => http(`/Admin/GetGroupList`,'GET'),
 
-    getLiveRoomList:() => http(`/Admin/getLiveRoomList`,'GET'),
-   
+    // 获取聊天室列表（根据当前用户ID）
+    getLiveRoomList:(id) => http(`/Admin/getLiveRoomList?userId=${id}`,'GET'),
     updateLiveRoom:(params) => http(`/Admin/updateLiveRoom`,'POST',params),
     deleteLiveRoom:(code) => http(`/Admin/DeleteLiveRoom?code=${code}`,'GET'),
     changeForbitStatus:(params) => http(`/Admin/ChangeForbitStatus`,'POST',params),
-
-
     getliveChatList:(params) => http(`/Admin/GetliveChatList`,'POST',params),
     updateLiveChat:(params) => http(`/Admin/UpdateLiveChat`,'POST',params),
     deleteLiveChat:(id) => http(`/Admin/DeleteLiveChat?id=${id}`,'GET'),
@@ -79,10 +77,6 @@ export default {
     InsertMessage:(params) => http(`/Live/InsertChat`,'POST',params),
     // 获取存在角色的用户列表
     GetRoleUserList:() => http(`/Admin/GetRoleUserList`,'POST'),
-   
-
-
-
      // 获取部门列表
      GetAllDepartmentList:() => http(`/Admin/GetDepartmentList`,'GET'),
      // 新增部门
@@ -100,9 +94,7 @@ export default {
     // 获取获客助手列表
     getRationErcodeUserList:(params) => http(`/Admin/GetRationErcodeUserList`,'POST',params),
     // 获取聊天室用户列表
-    GetLiveUserList:(pageId,pageSize) => http(`/Admin/GetLiveUserList?pageId=${pageId}&pageSize=${pageSize}`,'POST'),
-
-
+    GetLiveUserList:(params) => http(`/Admin/GetLiveUserList`,'POST',params),
     // 设置用户黑名单状态
     SetUserBlackStatus:(id,status) => http(`/Admin/SetUserBlackStatus?chat_id=${id}&is_black=${status}`,'POST'),
     // 更新聊天室用户信息
@@ -117,20 +109,16 @@ export default {
     UpdateLiveRole:(params) => http(`/Admin/UpdateLiveRole`,'POST',params),
     // 删除聊天室角色
     DeleteLiveRole:(id) => http(`/Admin/DeleteLiveRole?id=${id}`,'GET'),
-
     // 查询战绩回顾
     SelectLivePerformance:(id) => http(`/Admin/SelectLivePerformance?id=${id}`,'GET'),
     // 编辑战绩回顾
     UpdateLivePerformance:(params) => http(`/Admin/UpdateLivePerformance`,'POST',params),
-
     // 更新聊天室
     UpdateLiveRoom:(params) => http(`/Admin/UpdateLiveRoom`,'POST',params),
     // 新增聊天室
     AddLiveRoom:(params) => http(`/Admin/AddLiveRoom`,'POST',params),
-
-    // 获取聊天室在线人数
-    GetOnlineChatNumber:code => http(`/webSocket/GetOnlineChatNumber?code=${code}`,'GET'),
-
+    // 获取聊天室在线人数 
+    GetOnlineChatNumber:code => http(`//y8.gir666.top:8182/api/online?code=${code}`,'GET'),
     // 获取每日福利推送列表
     GetLiveRoomEaeryList:(code) => http(`/Admin/GetLiveRoomEaeryList?code=${code}`,'GET'),
     // 新增每日福利
@@ -139,4 +127,25 @@ export default {
     DeleteLiveRoomEaery:(id) => http(`/Admin/DeleteLiveRoomEaery?id=${id}`,'GET'),
     // 更新每日福利
     UpdateLiveRoomEaery:(params) => http(`/Admin/UpdateLiveRoomEaery`,'POST',params),
+    // 获取单聊消息列表
+    GetSingleChatList:(params) => http(`/Live/GetSingleChatList`,'POST',params),
+    // 新增单聊消息 
+    InsertSingleChat:(params) => http(`/Live/InsertSingleChat`,'POST',params),
+    // 获取单聊会话列表
+    GetConversationList:(id) => http(`/Live/GetConversationList?id=${id}`,'POST'),
+    // 获取VIP直播室列表
+    GetVipLiveRoomList:(id) => http(`/Admin/getVipLiveRoomList?userId=${id}`,'GET'),
+    // 获取所有单聊消息列表
+    GetAllSingleChatList:(params) => http(`/Admin/GetSingleChatList`,'POST',params),
+    
+    // 获取聊天室分享配置列表
+    GetLiveShareConfigList:() => http(`/Admin/GetLiveShareConfigList`,'GET'),
+    // 新增聊天室分享配置
+    AddLiveShareConfig:(params) => http(`/Admin/AddLiveShareConfig`,'POST',params),
+    // 删除聊天室分享配置
+    DeleteLiveShareConfig:(id) => http(`/Admin/DeleteLiveShareConfig?id=${id}`,'GET'),
+    // 更新聊天室分享配置
+    UpdateLiveShareConfig:(params) => http(`/Admin/UpdateLiveShareConfig`,'POST',params),
+    // 批量发送模板消息，参数 openids 为逗号分隔的 openid 字符串
+    SendTemplateMessage:(params) => http(`/Admin/SendTemplateMessage`,'POST',params),
 }

@@ -7,7 +7,13 @@
         <div>
           <a-table :dataSource="list" :columns="columns" :pagination="false" bordered size="middle">
             <span slot="department" slot-scope="text">{{ getDepartment(text.department) }}</span>
-            <div class="handler" slot="operation" slot-scope="text,record,index" v-if="text.grade != 1">
+            <!-- 头像 -->
+            <div class="head_img" slot="head_img" slot-scope="text">
+              <img v-if="text.head_img" :src="text.head_img" alt="" style="width: 50px;height: 50px;border-radius: 50%;">
+              <span v-else>-</span>
+            </div>
+            <div class="handler" slot="operation" slot-scope="text,record,index">
+              <!-- v-if="text.grade != 1" -->
               <a-button type="primary" @click="openLimit(index)" size="small">权限设置</a-button>
               <a-button type="primary" @click="update(index)" size="small" style="margin:0 10px">修改</a-button>
               <a-button type="danger" @click="handleDelete(index)" size="small">删除</a-button>
@@ -56,6 +62,14 @@
       dataIndex: 'nick_name',
     },
     {
+      title: '聊天室头像',
+      scopedSlots: { customRender: 'head_img' },
+    },
+    {
+      title: '聊天室显示名称',
+      dataIndex: 'chatroom_name',
+    },
+    {
       title: '隶属部门',
       scopedSlots: { customRender: 'department' },
     },
@@ -63,22 +77,22 @@
     //   title: 'im系统编号',
     //   dataIndex: 'im_id',
     // },
-    {
-      title: '今日资源领取数',
-      dataIndex: 'today_resource_num',
-    },
-    {
-      title: '总领取数',
-      dataIndex: 'all_resource_num',
-    },
-    {
-      title: '已添加',
-      dataIndex: 'add_count',
-    },
-    {
-      title: '客户同意但未添加',
-      dataIndex: 'add_nocount',
-    },
+    // {
+    //   title: '今日资源领取数',
+    //   dataIndex: 'today_resource_num',
+    // },
+    // {
+    //   title: '总领取数',
+    //   dataIndex: 'all_resource_num',
+    // },
+    // {
+    //   title: '已添加',
+    //   dataIndex: 'add_count',
+    // },
+    // {
+    //   title: '客户同意但未添加',
+    //   dataIndex: 'add_nocount',
+    // },
     {
       title: '注册时间',
       dataIndex: 'create_time',

@@ -37,7 +37,9 @@ Object.assign(Vue.prototype,{
 });
 
 import UploadFile from '@/components/uploadFile'
+import UploadImage from '@/components/uploadImage'
 Vue.component('UploadFile',UploadFile)
+Vue.component('UploadImage',UploadImage)
 
 new Vue({
   router,

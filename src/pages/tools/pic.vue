@@ -151,6 +151,17 @@ export default {
 
     qlt:() => import("./pic-children/qlt"),
     qltInput: () => import("./pic-children/qlt/input"),
+
+    
+    jxala: () => import("./pic-children/jxala"),
+    jxalaInput: () => import("./pic-children/jxala/input"),
+
+    jccd:() => import("./pic-children/jccd"),
+    jccdInput: () => import("./pic-children/jccd/input"),
+
+    ljjytx:() => import("./pic-children/ljjytx"),
+    ljjytxInput: () => import("./pic-children/ljjytx/input"),
+    
   },
   computed:{
     // 当前选中的模板
@@ -164,6 +175,22 @@ export default {
       name: "反弹先锋1号就买它",
 
       list:[
+        {
+          title: "逻辑交易体系",
+          width: 360, height: 639, components: "ljjytx",
+          name:"逻辑交易体系",
+          scale:3, src: 'ljjytx-red.png',
+        },
+        {
+          title: "金仓财道",
+          width: 360, height: 735, components: "jccd",
+          name:"金仓财道",
+          scale:3, src: 'jccd.png',
+        },
+        {
+          title: "模型内参", background: "#e3d1bb", width: 640, height: '', components: "jxala", scale: 4,
+          src:'jxal_a.png'
+        },
         {
           title: "交易策略", width: 400, height: 800, components: "qlt",
           name:"交易策略",
@@ -183,7 +210,7 @@ export default {
         },
         {
           title: "模型内参", background: "#e3d1bb", width: '', height: '', components: "mxnc", scale: 4,
-          src:'mxnc1.png',
+          src:'mxnc-rtzs1.png',
           tips: "单张图,尽量保证单张图宽高比 1.5:1",
         },
         {

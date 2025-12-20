@@ -20,7 +20,7 @@ export default {
 
 <style lang="less" scoped>
   .footer{
-    padding: 48px 16px 24px;
+    padding: 24px 16px 24px;
     /*margin: 48px 0 24px;*/
     text-align: center;
     .copyright{

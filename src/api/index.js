@@ -66,6 +66,7 @@ export default {
 
     // 获取聊天室列表（根据当前用户ID）
     getLiveRoomList:(id) => http(`/Admin/getLiveRoomList?userId=${id}`,'GET'),
+    getLiveRoomListAll:() => http(`/Admin/getLiveRoomListAll`,'GET'),
     updateLiveRoom:(params) => http(`/Admin/updateLiveRoom`,'POST',params),
     deleteLiveRoom:(code) => http(`/Admin/DeleteLiveRoom?code=${code}`,'GET'),
     changeForbitStatus:(params) => http(`/Admin/ChangeForbitStatus`,'POST',params),
@@ -148,4 +149,26 @@ export default {
     UpdateLiveShareConfig:(params) => http(`/Admin/UpdateLiveShareConfig`,'POST',params),
     // 批量发送模板消息，参数 openids 为逗号分隔的 openid 字符串
     SendTemplateMessage:(params) => http(`/Admin/SendTemplateMessage`,'POST',params),
+    
+    // 聊天文件管理
+    // 获取聊天文件列表
+    GetChatFileList:(params) => http('/Admin/GetChatFileList','POST',params),
+    // 获取聊天文件列表
+    GetChatFileTypeList:() => http('/Admin/GetChatFileTypeList','POST'),
+    // 添加聊天文件记录
+    AddChatFile:(params) => http('/Admin/AddChatFile','POST',params),
+    // 删除聊天文件
+    DeleteChatFile:(id) => http(`/Admin/DeleteChatFile?id=${id}`,'GET'),
+
+
+
+    // VIP课程管理
+    // 获取VIP课程列表
+    GetVipCourseList:(params) => http('/Admin/GetVipCourseList','POST',params),
+    // 添加VIP课程
+    AddVipCourse:(params) => http('/Admin/AddVipCourse','POST',params),
+    // 删除VIP课程
+    DeleteVipCourse:(id) => http(`/Admin/DeleteVipCourse?id=${id}`,'GET'),
+    // 更新VIP课程
+    UpdateVipCourse:(params) => http('/Admin/UpdateVipCourse','POST',params),
 }

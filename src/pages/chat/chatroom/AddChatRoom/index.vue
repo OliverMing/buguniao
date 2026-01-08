@@ -45,6 +45,14 @@
                     v-model="chatRoomForm.code" :maxlength="chatRoomForm.is_vip_room == 1 ? 6 : 10" />
                 </a-form-model-item>
 
+                <!-- 归属渠道： -->
+                <a-form-model-item label="归属渠道" prop="channel_id">
+                    <a-select v-model="chatRoomForm.channel_id" placeholder="请选择归属渠道">
+                        <a-select-option v-for="item in channelListOptions" 
+                        :key="item.id" :value="item.id">{{item.title}}</a-select-option>
+                    </a-select>
+                </a-form-model-item>
+
                 <!-- 房间名称 -->
                 <a-form-model-item label="房间名称" prop="room_name">
                     <a-input placeholder="房间名称" v-model="chatRoomForm.room_name" />
@@ -70,6 +78,9 @@
 import api from '@/api'
 
 export default {
+    props:{
+        channelListOptions:Array
+    },
     data() {
         return {
             showAddResource: false,
@@ -83,6 +94,7 @@ export default {
                 vip_room_avatar:null, // vip房间头像
                 vip_room_desc:null, // vip房间描述
                 room_name:null, // vip房间名称
+                channel_id:undefined, // 归属渠道
             },
             vipRoomTypeOptions:[
                 {  label:'文字课程房间', value:'text' },
@@ -97,6 +109,7 @@ export default {
             rules: {
                 is_vip_room: { required: true, message: '是否是vip房间' },
                 code: { required: true, message: '请输入房间号' },
+                channel_id: { required: true, message: '请选择归属渠道' },
                 vip_room_type: { required: true, message: '请选择vip房间类型' },
                 // room_name: { required: true, message: '请输入vip房间名称' },
                 vip_room_avatar: { required: true, message: '请上传vip房间头像' },

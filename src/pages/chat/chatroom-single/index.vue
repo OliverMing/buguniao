@@ -453,8 +453,7 @@ export default {
         const payload = JSON.parse(event.data)
         
         // 处理单聊消息
-        if (payload.type === 'single') {
-          debugger;
+        if (payload.type === 'single' && payload.formId) {
           // 如果消息来自当前选中的会话，则添加到消息列表
           if (this.selectedConversation && (payload.formId == this.selectedConversation.id)) {
             this.messageList.push({

@@ -36,7 +36,7 @@
           </a-form-model-item>
 
           <!-- 选择VIP进入房间 -->
-          <a-form-model-item label="VIP房间" prop="vipRoomId" v-if="vipTime && vipTime.length > 0">
+          <a-form-model-item label="VIP房间" prop="vipRoomId">
             <a-select v-model="form.vipRoomId" placeholder="请匹配VIP房间" allowClear>
               <a-select-option v-for="item in vipChatRoomList" :key="item.id" :value="item.id">
                 {{ item.room_name }}
@@ -84,19 +84,20 @@ export default {
       confirmLoading:false,
       show: false,
       vipTime: null,
-      form: {
+      initForm: {
         chat_id: null,
         headimgurl: null, //头像
         nickname: null, //昵称
         role_id: undefined, //角色
         vipStartTime: null, //vip开始时间
         vipEndTime: null, //vip结束时间
-        vipRoomId: null, //vip房间
-        msg_screen:0, // 消息上屏
+        vipRoomId: undefined, //vip房间
+        msg_screen:0, // 消息上屏 
       },
+      form: { },
       rules: {
         nickname:{ required: true, message: '请输入昵称' },
-        vipRoomId:{ required: true, message: '请选择VIP房间' }
+        //vipRoomId:{ required: true, message: '请选择VIP房间' }
         // role_id: [{ required: true, message: '请选择角色' }],
         // headimgurl: [{ required: true, message: '请上传头像' }]
       }
@@ -110,6 +111,7 @@ export default {
     },
 
     async init(info) {
+      this.form = Object.assign({}, this.initForm);
       if(info){
         Object.keys(this.form).forEach(e => {
           this.form[e] = info[e] || undefined;
@@ -131,6 +133,7 @@ export default {
           if (valid) {
             this.confirmLoading = true;
             const params = JSON.parse(JSON.stringify(this.form));
+            debugger;
             if(this.vipTime && this.vipTime[0] && this.vipTime[1]){
               params.vipStartTime = this.vipTime[0].format('YYYY-MM-DD HH:mm:ss');
               params.vipEndTime = this.vipTime[1].format('YYYY-MM-DD HH:mm:ss');
@@ -151,12 +154,7 @@ export default {
     close(){
         this.show = false;
         this.confirmLoading = false;
-        this.form = {
-          chat_id: null,
-          headimgurl: null, //头像
-          nickname: null, //昵称
-          role_id: undefined, //角色
-        };
+        this.form = Object.assign({}, this.initForm);
         this.$refs.ruleForm.resetFields();
     },
 

@@ -4,8 +4,13 @@
     <a-card style="margin-bottom: 15px;">
         <!-- 昵称搜索用户 -->
         <a-input-search style="width: 240px;" v-model="keywords" 
-        @keyup.enter.native="resetList"
-        placeholder="请输入昵称搜索用户" @search="resetList" />
+        placeholder="请输入昵称搜索用户" />
+        <!-- 是否是订阅用户 -->
+        <a-select v-model="isVip" style="width: 240px;margin-left: 10px;" placeholder="请选择是否是订阅用户">
+            <a-select-option :value="false">全部用户</a-select-option>
+            <a-select-option :value="true">已订阅用户</a-select-option>
+        </a-select> 
+        <a-button type="primary" class="ml-10" @click="resetList">搜索</a-button>
     </a-card>
 
     <a-card>
@@ -101,6 +106,7 @@ export default {
             pageId: 1,
             pageSize: 10,
             keywords: '',
+            isVip:undefined,
             selectedRowKeys: [], // 选中的行key
             selectedRows: [], // 选中的行数据
             columns: [
@@ -109,6 +115,7 @@ export default {
                 { title: 'OPENID', dataIndex: 'openid' },
                 { title: '昵称', dataIndex: 'nickname' },
                 { title: '头像', scopedSlots: { customRender: 'headimgurl' } },
+                { title: '归属后台用户', dataIndex: 'parentId' },
                 { title: '是否黑名单', scopedSlots: { customRender: 'is_black' } },
                 { title: '角色', scopedSlots: { customRender: 'role_id' } },
                 { title: 'VIP起止时间', scopedSlots: { customRender: 'vipStartTimeEndTime' } },
@@ -311,7 +318,8 @@ export default {
                 pageId:this.pageId, 
                 pageSize:this.pageSize, 
                 userId:this.$store.state.account.user.id,
-                nickname:this.keywords
+                nickname:this.keywords,
+                isVip:this.isVip,
             }).then(data => {
                 const { total, records } = data;
                 this.list = records;

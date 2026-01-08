@@ -12,7 +12,8 @@
         <a-tab-pane v-for="(item, index) in groupList" :key="index">
           <span slot="tab">
             <a-icon type="sketch" v-if="item.is_vip_room == 1" />
-            {{ item.room_name || item.code }}
+            {{ item.code }}<span v-if="item.room_name"> | {{ item.room_name }}</span>
+            <span v-if="item.channel_id">{{ getChannelName(item.channel_id) }}</span>
           </span>
           <a-tabs style="margin-top: -10px;">
             <a-tab-pane key="1" tab="消息管理">
@@ -63,12 +64,15 @@
                       style="width: 60px; height: 60px;">
                     <video v-else-if="isImageOrVideoOrText(record.content) == 'video'" controls :src="record.content"
                       style="width: 200px; height: 100px;"></video>
-                    <div v-else>{{ record.content }}</div>
+                    <div class="content-text" v-html="record.content" v-else></div>
                   </div>
 
                   <div class="handler" slot="operation" slot-scope="text,record,index">
                     <a-button type="link" v-if="record.status == 0"
-                      @click="audit(record.id)" size="small">审核通过</a-button>
+                      @click="audit(record)" size="small">审核通过</a-button>
+                    <!-- 引用 -->
+                    <a-button type="link" v-else @click="$refs.addMessage.open(record.content)" size="small">引用</a-button>
+                    <!-- 删除 -->
                     <a-button type="link" class="link-btn" style="color: #f10;" @click="handleDelete(index)"
                       size="small">删除</a-button>
                   </div>
@@ -96,7 +100,9 @@
         @send="sendMessage" />
     </template>
 
-    <AddChatRoom ref="addChatRoom" @success="getLiveRoomList" />
+    <AddChatRoom ref="addChatRoom" 
+    :channelListOptions="channelListOptions"
+    @success="getLiveRoomList" />
 
   </div>
 </template>
@@ -109,6 +115,7 @@ import AddMessage from './AddMessage'
 import EaeryDayBenefit from './EaeryDayBenefit'
 import { mapState } from 'vuex';
 import AddChatRoom from './AddChatRoom'
+import moment from 'moment';
 
 export default {
   components: {
@@ -118,7 +125,6 @@ export default {
     AddChatRoom
   },
   data() {
-
     return {
       pageId: 1, // 页码
       pageSize: 20, // 页大小
@@ -128,9 +134,7 @@ export default {
       groupList: [],
       groupCurrent: 0,
       showGroup: false,
-      
       visibleHandler: false,
-      
       listPwd: null,
       list: null, // 列表
       total: 0, // 总数
@@ -138,7 +142,7 @@ export default {
         { title: 'ID', dataIndex: 'id' },
         { title: '房间号', dataIndex: 'code' },
         { title: '用户', dataIndex: 'openid' },
-        { title: '内容', scopedSlots: { customRender: 'content' } },
+        { title: '内容', scopedSlots: { customRender: 'content' }},
         // { title: '审核',dataIndex: 'is_winnow' },
         { title: '审核状态', scopedSlots: { customRender: 'status' } },
         { title: '创建时间', dataIndex: 'create_time' },
@@ -148,6 +152,7 @@ export default {
 
       ws: null, // WebSocket
       onlineCountList: [],
+      channelListOptions:[], // 归属渠道列表
     }
   },
   watch: {
@@ -183,12 +188,77 @@ export default {
         }
       }
     },
-  },
 
+    getChannelName() {
+      return id => {
+        let name = '';
+        this.channelListOptions.forEach(item => {
+          if (item.id == id) {
+            name = `( ${item.channel} | ${item.title} )`;
+          }
+        })
+        return name;
+      }
+    },
+
+  },
   created() {
     this.getLiveRoomList();
+    api.GetLiveShareConfigList().then(res => {
+        this.channelListOptions = res;
+    })
+
+    this.initWebSocketListener(); // 初始化 WebSocket 监听
   },
   methods: {
+
+
+    // 初始化 WebSocket 监听
+    initWebSocketListener() {
+      // 监听 WebSocket 消息
+      this.wsMessageHandler = (event) => {
+        this.handleWebSocketMessage(event)
+      }
+      
+      // 如果 WebSocket 已存在，直接添加监听
+      if (window.ws && window.ws.readyState === WebSocket.OPEN) {
+        window.ws.addEventListener('message', this.wsMessageHandler)
+      } else {
+        // 等待 WebSocket 连接
+        const checkWs = setInterval(() => {
+          if (window.ws && window.ws.readyState === WebSocket.OPEN) {
+            window.ws.addEventListener('message', this.wsMessageHandler)
+            clearInterval(checkWs)
+          }
+        }, 500)
+        
+        // 10秒后停止检查
+        setTimeout(() => {
+          clearInterval(checkWs)
+        }, 10000)
+      }
+    },
+
+    // 处理 WebSocket 消息
+    handleWebSocketMessage(event) {
+      const payload = JSON.parse(event.data)
+      // 处理单聊消息
+      if (payload.type === 'single' && !payload.formId) {
+        const code = payload.code;
+        // 判断是否是当前聊天室的消息
+        if (code == this.groupList[this.groupCurrent].code) {
+          // 刷新列表
+          this.changePageId(1);
+        } else {
+          // 切换到对应聊天室
+          this.groupList.forEach((item, index) => {
+            if (item.code == code) {
+              this.groupCurrent = index;
+            }
+          })
+        }
+      }
+    },
 
     // 发送群消息
     sendMessage(message) {
@@ -280,13 +350,21 @@ export default {
     },
 
     // 审核通过
-    audit: function (id) {
+    audit: function (e) {
       api.updateLiveChat({
-        id: id,
+        id: e.id,
         status: 1
       }).then(() => {
         this.$message.success('审核通过成功');
         this.queryList();
+        // 发送群消息
+        this.sendMessage(JSON.stringify({
+            type:'group',
+            code:e.code,
+            userInfo:e.userInfo,
+            content:e.content,
+            create_time: moment().format('YYYY-MM-DD HH:mm:ss') //格式需要调整YYYY-MM-DD HH:mm:ss, //格式需要调整YYYY-MM-DD HH:mm:ss
+        }));
       })
     },
 
@@ -329,6 +407,32 @@ export default {
 </script>
 
 <style lang="less" scoped>
+
+.content-text{
+  max-height: 100px;
+  width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  cursor: pointer;
+
+  &:hover{
+    color: #1890ff;
+  }
+}
+
+.chatroom-list{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.chatroom-list-item{
+  display: flex;
+}
 
 .socket-status{
   width: 8px;

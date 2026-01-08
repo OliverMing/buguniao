@@ -171,9 +171,7 @@ export default {
   },
   data() {
     return {
-
       name: "反弹先锋1号就买它",
-
       list:[
         {
           title: "逻辑交易体系",
@@ -181,36 +179,36 @@ export default {
           name:"逻辑交易体系",
           scale:3, src: 'ljjytx-red.png',
         },
-        {
-          title: "金仓财道",
-          width: 360, height: 735, components: "jccd",
-          name:"金仓财道",
-          scale:3, src: 'jccd.png',
-        },
-        {
-          title: "模型内参", background: "#e3d1bb", width: 640, height: '', components: "jxala", scale: 4,
-          src:'jxal_a.png'
-        },
-        {
-          title: "交易策略", width: 400, height: 800, components: "qlt",
-          name:"交易策略",
-          scale:3, src: 'qinlongtou.png',
-        },
-        {
-          title: "教学案例", 
-          width: '', height: '', 
-          components: "jxal", 
-          scale: 4,
-          src:'jxal.png',
-        },
+        // {
+        //   title: "金仓财道",
+        //   width: 360, height: 735, components: "jccd",
+        //   name:"金仓财道",
+        //   scale:3, src: 'jccd.png',
+        // },
+        // {
+        //   title: "模型内参", background: "#e3d1bb", width: 640, height: '', components: "jxala", scale: 4,
+        //   src:'jxal_a.png'
+        // },
+        // {
+        //   title: "交易策略", width: 400, height: 800, components: "qlt",
+        //   name:"交易策略",
+        //   scale:3, src: 'qinlongtou.png',
+        // },
+        // {
+        //   title: "教学案例", 
+        //   width: '', height: '', 
+        //   components: "jxal", 
+        //   scale: 4,
+        //   src:'jxal.png',
+        // },
         {
           title: "红七月", background: "#e3d1bb", width: '', height: '', components: "tsfa", scale: 4,
           isVertical:true,
           src:'hqy.png',
         },
         {
-          title: "模型内参", background: "#e3d1bb", width: '', height: '', components: "mxnc", scale: 4,
-          src:'mxnc-rtzs1.png',
+          title: "模型内参", background: "#e3d1bb", width: '', height: '', components: "mxnc", scale: 2,
+          src:'moxingneican.png',
           tips: "单张图,尽量保证单张图宽高比 1.5:1",
         },
         {
@@ -228,26 +226,26 @@ export default {
           name:"短线金股",
           scale:2, src: 'time1.png',
         },
-        {
-          title: "龙头逻辑", background: "#e78546", width: 360, height: 735.333, components: "ltlj",
-          name:"龙头逻辑",
-          scale:3, src: 'livelongtou1.png',
-        },
-        {
-          title: "下周补贴", background: "#e78546", width: 518.33, height: 277.33, components: "xzbt",
-          name:"下周补贴",
-          scale:3, src: 'xzbt1.png',
-        },
-        {
-          title: "热点风向标", background: "#e78546", width: 332, height: 514.33, components: "rdfxb",
-          name:"热点风向标",
-          scale:3, src: 'rdfxb1.jpg',
-        },
-        {
-          title: "早盘精选", background: "#e78546", width: 375, height: 812, components: "zpjx",
-          name:"早盘精选",
-          scale:2, src: 'zpjx1.png',
-        },
+        // {
+        //   title: "龙头逻辑", background: "#e78546", width: 360, height: 735.333, components: "ltlj",
+        //   name:"龙头逻辑",
+        //   scale:3, src: 'livelongtou1.png',
+        // },
+        // {
+        //   title: "下周补贴", background: "#e78546", width: 518.33, height: 277.33, components: "xzbt",
+        //   name:"下周补贴",
+        //   scale:3, src: 'xzbt1.png',
+        // },
+        // {
+        //   title: "热点风向标", background: "#e78546", width: 332, height: 514.33, components: "rdfxb",
+        //   name:"热点风向标",
+        //   scale:3, src: 'rdfxb1.jpg',
+        // },
+        // {
+        //   title: "早盘精选", background: "#e78546", width: 375, height: 812, components: "zpjx",
+        //   name:"早盘精选",
+        //   scale:2, src: 'zpjx1.png',
+        // },
         {
           title: "每日金股", background: "#e78546", width: 420, height: 740, components: "mrjg",
           name:"每日金股",

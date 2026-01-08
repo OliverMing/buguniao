@@ -40,6 +40,13 @@ class WebSocketManager {
               placement: 'BottomRight',
             })
             return false
+          }else{
+            this.onNotification({
+              message: '用户新消息待审核',
+              type: 'success',
+              description: `用户【${payload.userInfo.nickname}】 在房间 ${payload.code}中发了一条消息：${payload.content}`,
+              placement: 'BottomRight',
+            })
           }
         }
       } catch (error) {

@@ -102,6 +102,26 @@ const options = {
               }
             },
             {
+              path: 'chatroom-file',
+              name: '群聊文件管理',
+              component: () => import('@/pages/chat/chatroom-file/index'),
+              meta:{
+                authority: {
+                  permission: 'chatroom-file'
+                }
+              }
+            },
+            {
+              path: 'chatroom-file-vip',
+              name: 'VIP课程管理',
+              component: () => import('@/pages/chat/chatroom-file-vip/index'),
+              meta:{
+                authority: {
+                  permission: 'chatroom-file-vip'
+                }
+              }
+            },
+            {
               path: 'chatroom-single',
               name: '私聊聊天室管理',
               component: () => import('@/pages/chat/chatroom-single/index')

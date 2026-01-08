@@ -1,14 +1,13 @@
 <template>
     <a-upload :file-list="fileList"
     :loading="loading"
-    :before-upload="beforeUpload" 
+    :before-upload="beforeUpload"
+    :showUploadList="false"
     :remove="() => removeFileList()"
-    accept=".png,.jpg,.jpeg">
-        <a-button>
-            <upload-outlined></upload-outlined>
+    accept="*">
+        <a-button :loading="loading">
             {{ info ? '重新上传' : '选择文件' }}
         </a-button>
-        <div style="margin-top:10px;font-size:12px;color:#888">仅支持.png/.jpg/.jpeg文件</div>
     </a-upload>
 </template>
 
@@ -38,13 +37,12 @@ export default {
                   method: 'post',
                   data: formData,
               }).then(res => {
-                  this.$emit('input',process.env.VUE_APP_API_BASE_URL + `/${res.data}`);
+                  this.$emit('input',`${process.env.VUE_APP_API_BASE_URL}/${res.data}`);
                   this.loading = false;
               }).catch(err => {
                   this.$message.error(err.message)
                   this.loading = false;
               })
-
             return false;
         },
 

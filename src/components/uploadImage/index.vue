@@ -36,7 +36,7 @@ export default {
                 return;
             }
             if (info.file.status === 'done') {
-                this.$emit('input',`https:${this.baseUrl}/${info.file.response.data}`);
+                this.$emit('input',`${this.baseUrl}/${info.file.response.data}`);
                 this.loading = false;
             }
         },

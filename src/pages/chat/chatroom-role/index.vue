@@ -5,6 +5,9 @@
             <template slot="color" slot-scope="text, record">
                 <a-tag :color="record.color">{{ record.color }}</a-tag>
             </template>
+            <template slot="type" slot-scope="text, record">
+               {{ record.type == 1 ? '系统管理角色' : '客户角色'}}
+            </template>
             <template slot="operation" slot-scope="text, record">
                 <a-button type="link" link @click="handleEdit(record)">编辑</a-button>
                 <a-button type="link" class="link-btn" @click="handleDelete(record)">删除</a-button>
@@ -35,6 +38,10 @@ export default {
                 {
                     title: '角色名称',
                     dataIndex: 'name',
+                },
+                {
+                    title: '角色类型',
+                    scopedSlots: { customRender: 'type' },
                 },
                 {
                     title: '角色背景颜色',

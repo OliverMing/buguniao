@@ -118,6 +118,11 @@ export default {
 <style lang="less">
 @import "flex.css";
 
+.ql-container{
+  max-height: 450px !important;
+  overflow-y: auto !important;
+}
+
 .link-btn {
   color: #f10 !important;
 }

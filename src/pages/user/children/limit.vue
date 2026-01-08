@@ -111,6 +111,8 @@ const menuOptions = [
   { label: '部门管理', value: 'department' },
   { label: '聊天室', value: 'chat' },
   { label: '聊天室管理', value: 'chatroom' },
+  { label: '群聊文件管理', value: 'chatroom-file' },
+  { label: 'VIP课程管理', value: 'chatroom-file-vip' },
   { label: '私聊消息列表', value: 'chatroom-single-msg-list' },
   { label: '聊天室用户管理', value: 'chatroom-user' },
   { label: '聊天室角色管理', value: 'chatroom-role' },

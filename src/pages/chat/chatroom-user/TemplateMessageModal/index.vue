@@ -16,13 +16,17 @@
           <a-form-model-item label="讲师姓名" prop="teacher_name">
             <a-input placeholder="请输入讲师姓名" v-model="form.teacher_name" />
           </a-form-model-item>
+          <a-form-model-item label="跳转链接" prop="url">
+            <a-input placeholder="请输入跳转链接" v-model="form.url" />
+            <a-button type="link" style="margin-left: -15px;" @click="form.url = baseUrl">默认聊天室链接</a-button>
+          </a-form-model-item>
         </a-form-model>
       </a-card>
 
       <!-- 选中用户列表 -->
       <a-card :bordered="false" class="selected-users-card" title="已选中用户">
         <a-table :dataSource="selectedUsers" :columns="userColumns" :pagination="false" bordered size="small"
-          :scroll="{ y: 200 }" :rowKey="record => record.id">
+          :scroll="{ y: 146 }" :rowKey="record => record.id">
           <div slot="headimgurl" slot-scope="text, record">
             <a-avatar :size="32" icon="user" :src="record.headimgurl" />
           </div>
@@ -55,12 +59,15 @@ export default {
       form: {
         course_name: '',
         time: null,
+        url:'',
         teacher_name: ''
       },
+      baseUrl: `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx9e6666dfb7c0165d&redirect_uri=https%3A%2F%2Fwechat.mk-ytx.cn%2Fim%2F&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect`,
       rules: {
-        course_name: [{ required: true, message: '请输入课程名称', trigger: 'blur' }],
-        time: [{ required: true, message: '请选择时间', trigger: 'change' }],
-        teacher_name: [{ required: true, message: '请输入讲师姓名', trigger: 'blur' }]
+        course_name:{ required: true, message: '请输入课程名称', trigger: 'blur' },
+        time:{ required: true, message: '请选择时间', trigger: 'change' },
+        teacher_name: { required: true, message: '请输入讲师姓名', trigger: 'blur' },
+        // url: { required: true, message: '请输入跳转链接', trigger: 'blur' }
       },
       userColumns: [
         { title: 'ID', dataIndex: 'id', width: 80 },
@@ -75,6 +82,7 @@ export default {
     // 初始化弹窗，传入选中的用户列表
     init(users) {
       this.selectedUsers = JSON.parse(JSON.stringify(users || []));
+      this.form.url = this.baseUrl;
       this.show = true;
     },
 
@@ -106,7 +114,8 @@ export default {
               course_name: this.form.course_name,
               time: this.form.time,
               teacher_name: this.form.teacher_name,
-              openids: openids.join(',')
+              openids: openids.join(','),
+              url: this.form.url
             };
             // 调用发送模板消息的接口（需要根据实际API调整）
             await api.SendTemplateMessage(params);

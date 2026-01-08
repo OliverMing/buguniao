@@ -15,6 +15,14 @@
                 <!-- 颜色选择器 -->
                  <input type="color" v-model="form.color" />
             </a-form-model-item>
+            
+            <!-- 角色类型 0:客户角色 1:系统管理角色 -->
+            <a-form-model-item label="角色类型" prop="type">
+                <a-radio-group v-model="form.type">
+                    <a-radio :value="0">客户角色</a-radio>
+                    <a-radio :value="1">系统管理角色</a-radio>
+                </a-radio-group>
+            </a-form-model-item>
         </a-form-model>
     </a-modal>
 </template>
@@ -30,6 +38,7 @@ export default {
                 id: null,
                 name: null, // 角色名称
                 color: null, // 角色背景颜色
+                type:0, // 角色类型 0:客户角色 1:系统管理角色
             },
             rules: {
                 name: [{ required: true, message: '请输入角色名称' }],
@@ -57,6 +66,7 @@ export default {
                 id: null,
                 name: null, // 角色名称
                 color: null, // 角色背景颜色
+                type:0, // 角色类型 0:客户角色 1:系统管理角色
             };
             this.$refs.ruleForm.resetFields();
         },

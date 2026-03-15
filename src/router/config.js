@@ -165,6 +165,16 @@ const options = {
                   permission: 'chatroom-role'
                 }
               }
+            },
+            {
+              path: 'wechat-common-user',
+              name: '金仓财道关注用户管理',
+              component: () => import('@/pages/chat/wechat-common-user/index'),
+              meta:{
+                authority: {
+                  permission: 'wechat-common-user'
+                }
+              }
             }
           ]
         },

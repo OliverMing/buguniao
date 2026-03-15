@@ -28,6 +28,11 @@
         <template slot="type" slot-scope="text,record">
           {{ getType(record.type) }}
         </template>
+        <template slot="real_count" slot-scope="text,record">
+          <span v-if="record.real_count" style="color: #337aee;cursor: pointer;" @click="openReadList(record)">{{ record.real_count }}</span>
+          <span v-else>0</span>
+        </template>
+
         <template slot="cover" slot-scope="text,record">
           <img style="width:60px;height: 30px;object-fit: cover;"
           :src="record.cover" />
@@ -55,6 +60,9 @@
       :roomListLoading="roomListLoading" 
       :typeOptions="typeOptions" 
       @refresh="getFileList" />
+
+      <!-- 阅读量列表弹窗 -->
+      <ReadList ref="readList" />
     </div>
   </template>
   
@@ -62,63 +70,81 @@
   import api from '@/api'
   import { Modal } from 'ant-design-vue'
   import UploadFile from './Model/index.vue'
+  import ReadList from './ReadList/index.vue'
   
   const columns = [
     {
       title: 'ID',
       dataIndex: 'id',
       width: 80,
+      align: 'center',
     },
     {
       title: '归属房间',
       dataIndex: 'code',
       width: 120,
+      align: 'center',
       scopedSlots: { customRender: 'code' },
     },
     {
       title: '栏目',
       dataIndex: 'type',
       width: 100,
+      align: 'center',
       scopedSlots: { customRender: 'type' },
     },
     {
       title: '标题',
       dataIndex: 'title',
+      align: 'center',
     },
     {
       title: '作者',
       dataIndex: 'author',
+      align: 'center',
     },
     {
       title: '地址',
       dataIndex: 'address',
+      align: 'center',
     },
     {
       title: '封面',
       dataIndex: 'cover',
+      align: 'center',
       scopedSlots: { customRender: 'cover' },
     },
-    {
-      title: '文件地址',
-      dataIndex: 'url',
-      width: 170,
-      scopedSlots: { customRender: 'url' },
-    },
+    // {
+    //   title: '文件地址',
+    //   dataIndex: 'url',
+    //   width: 170,
+    //   scopedSlots: { customRender: 'url' },
+    // },
     {
       title: '文件大小',
       dataIndex: 'file_size',
       width: 120,
+      align: 'center',
     },
     {
       title: '文件类型',
       dataIndex: 'file_type',
       scopedSlots: { customRender: 'file_type' },
       width: 120,
+      align: 'center',
+    },
+    {
+      title: '实际阅读量(去重)',
+      dataIndex: 'real_count',
+      width: 170,
+      align: 'center',
+      scopedSlots: { customRender: 'real_count' },
     },
     {
       title: '上传时间',
       dataIndex: 'create_time',
       width: 180,
+      align: 'center',
     },
     {
       title: '操作',
@@ -131,7 +157,8 @@
   export default {
     name: 'ChatFileManage',
     components: {
-      UploadFile
+      UploadFile,
+      ReadList
     },
     data() {
       return {
@@ -177,6 +204,11 @@
           }).catch(err => {
               this.$message.error('获取聊天文件类型列表失败')
           })
+      },
+
+      // 打开阅读量列表弹窗
+      openReadList(record) {
+        this.$refs.readList.open(record)
       },
   
       // 获取文件列表

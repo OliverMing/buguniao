@@ -51,7 +51,9 @@
               </div>
 
               <div style="margin-top:20px">
-                <a-table :dataSource="list" :columns="columns" :pagination="false" bordered class="table-box"
+                <a-table :dataSource="list" :columns="columns" 
+                :loading="loading"
+                :pagination="false" bordered class="table-box"
                   size="middle" align="center">
                   <div slot="status" slot-scope="e">
                     <a-tag :color="e.status == 1 ? '#03a9f4' : '#ccc'">{{ e.status == 0 ? '审核中' : '已审核' }}</a-tag>
@@ -149,6 +151,7 @@ export default {
         { title: '操作', scopedSlots: { customRender: 'operation' } },
       ],
       isBan: false,
+      loading: true,
 
       ws: null, // WebSocket
       onlineCountList: [],
@@ -321,11 +324,14 @@ export default {
 
     // 获取聊天室列表
     getLiveRoomList: function () {
+      this.loading = true;
       api.getLiveRoomList(this.$store.state.account.user.id).then(data => {
         this.groupList = data;
         this.isBan = Number(this.groupList[this.groupCurrent].forbit_chat);
         this.queryList();
         this.getOnlineChatNumber();
+      }).finally(() => {
+        this.loading = false;
       })
     },
 
@@ -408,14 +414,12 @@ export default {
 
 <style lang="less" scoped>
 
+  /deep/ img{
+    max-width: 260px;
+  }
+
 .content-text{
-  max-height: 100px;
   width: 300px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
   cursor: pointer;
 
   &:hover{

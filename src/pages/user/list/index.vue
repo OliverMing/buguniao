@@ -30,7 +30,10 @@
       </a-modal>
   
       <a-modal title="权限设置" centered width="560px" :footer="null" @cancel="showLimit = false" :visible="showLimit">
-        <Limit v-if="showLimit" :id="`user-${chooseId}`" :departmentList="departmentList" />
+        <Limit v-if="showLimit" 
+        :id="`user-${chooseId}`" 
+        :departmentList="departmentList"
+        @close="showLimit = false" />
       </a-modal>
   
       <!-- 获取部门列表 -->

@@ -3,7 +3,7 @@
     <a-modal title="上传文件" 
     :visible="uploadModalVisible" @ok="handleUploadConfirm" @cancel="handleUploadCancel"
         :confirm-loading="uploading" centered width="680px">
-        <a-form-model :model="uploadForm" 
+        <a-form-model :model="uploadForm" style="max-height: 70vh;overflow-y: auto;"
         :rules="uploadRules" ref="uploadForm">
             
             <a-form-model-item label="栏目类型" prop="type">
@@ -66,6 +66,18 @@
             <!-- read_count -->
             <a-form-model-item label="阅读量">
                 <a-input-number v-model="uploadForm.read_count" :min="0" />
+            </a-form-model-item>
+
+            <a-form-model-item label="点赞量">
+                <a-input-number v-model="uploadForm.like_count" :min="0" />
+            </a-form-model-item>
+
+            <a-form-model-item label="share_count">
+                <a-input-number v-model="uploadForm.share_count" :min="0" />
+            </a-form-model-item>
+
+            <a-form-model-item label="推荐量">
+                <a-input-number v-model="uploadForm.recommend_count" :min="0" />
             </a-form-model-item>
 
             <!-- <a-form-model-item label="文件大小">
@@ -172,7 +184,10 @@ export default {
               content:null,
               author:null,
               address:null,
-              read_count:0
+              read_count:0,
+              like_count:0, //点赞量
+              share_count:0, //分享量
+              recommend_count:0 //推荐量
             }
         },
 
@@ -185,13 +200,15 @@ export default {
             // 再验证表单
             this.$refs.uploadForm.validate(valid => {
                 if (valid) {
-                    //   console.info(this.uploadForm);
+                    this.uploading = true
                     let params = JSON.parse(JSON.stringify(this.uploadForm));
                     params.file_size = this.fileSize ? this.fileSizeText : null;
                     api[params.id ? 'UpdateVipCourse' : 'AddVipCourse'](params).then(() => {
                         this.$message.success('执行成功')
                         this.$emit('refresh');
                         this.uploadModalVisible = false
+                    }).finally(() => {
+                      this.uploading = false;
                     })
                 }
             })

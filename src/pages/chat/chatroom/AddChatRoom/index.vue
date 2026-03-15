@@ -39,8 +39,10 @@
                     </a-form-model-item>
                 </template>
                 
+                <!--  :disabled="chatRoomForm.id != null"  -->
+
                 <a-form-model-item label="房间号" prop="code">
-                    <a-input :disabled="chatRoomForm.id != null" 
+                    <a-input
                     :placeholder="`${chatRoomForm.is_vip_room == 1 ? '请输入房间号(如：vip123456)' : '请输入房间号(如：123456)'}`"
                     v-model="chatRoomForm.code" :maxlength="chatRoomForm.is_vip_room == 1 ? 6 : 10" />
                 </a-form-model-item>
@@ -96,6 +98,7 @@ export default {
                 room_name:null, // vip房间名称
                 channel_id:undefined, // 归属渠道
             },
+            oldCode:null,
             vipRoomTypeOptions:[
                 {  label:'文字课程房间', value:'text' },
                 {  label:'视频课程房间', value:'video' },
@@ -127,6 +130,8 @@ export default {
                 Object.keys(this.chatRoomForm).forEach(key => {
                     this.chatRoomForm[key] = item[key];
                 });
+
+                this.oldCode = item.code;
             }
             this.showAddResource = true;
         },
@@ -139,14 +144,20 @@ export default {
         onSubmit: function () {
             this.$refs.ruleForm.validate(valid => {
                 if (valid) {
+                    
                     if (!this.chatRoomForm.id) {
                         this.chatRoomForm.creators = this.$store.state.account.user.id;
                     }
+
                     api[this.chatRoomForm.id ? 'UpdateLiveRoom' : 'AddLiveRoom'](this.chatRoomForm).then(() => {
                         this.$message.success('执行成功');
                         this.close();
                         this.$emit('success');
-                    })
+                    });
+
+                    if(this.oldCode != this.chatRoomForm.code){
+                        this.$message.success('修改房间号耗时较长，请耐心等待');
+                    }
                 }
             })
         },

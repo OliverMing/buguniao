@@ -10,7 +10,14 @@
             <a-select-option :value="false">全部用户</a-select-option>
             <a-select-option :value="true">已订阅用户</a-select-option>
         </a-select> 
+        <a-select v-model="isBlack" 
+        style="width: 240px;margin-left: 10px;" 
+        placeholder="请选择是否是黑名单用户">
+            <a-select-option :value="false">全部用户</a-select-option>
+            <a-select-option :value="true">黑名单用户</a-select-option>
+        </a-select> 
         <a-button type="primary" class="ml-10" @click="resetList">搜索</a-button>
+        <a-button class="ml-10" @click="reset">重置</a-button>
     </a-card>
 
     <a-card>
@@ -107,6 +114,7 @@ export default {
             pageSize: 10,
             keywords: '',
             isVip:undefined,
+            isBlack:undefined,
             selectedRowKeys: [], // 选中的行key
             selectedRows: [], // 选中的行数据
             columns: [
@@ -156,6 +164,14 @@ export default {
         this.getLiveRoomList();
     },
     methods: {
+
+        reset() {
+            this.keywords = '';
+            this.isVip = undefined;
+            this.isBlack = undefined;
+            this.pageId = 1;
+            this.queryList();
+        },
 
         // 表格选择变化
         onSelectChange(selectedRowKeys, selectedRows) {
@@ -320,6 +336,7 @@ export default {
                 userId:this.$store.state.account.user.id,
                 nickname:this.keywords,
                 isVip:this.isVip,
+                isBlack:this.isBlack,
             }).then(data => {
                 const { total, records } = data;
                 this.list = records;

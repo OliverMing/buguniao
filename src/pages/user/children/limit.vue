@@ -16,24 +16,9 @@
                     </a-tab-pane> -->
                     <a-tab-pane key="WEB" tab="WEB端权限">
                         <a-form-item label="菜单可见权限">
-                            <!-- <div :style="{ borderBottom: '1px solid #E9E9E9','marginBottom':'10px' }">
-                                <a-checkbox :indeterminate="indeterminate" :checked="checkAll" @change="onCheckAllChange">全选</a-checkbox>
-                            </div>
-                            <a-checkbox-group v-model="params.menu_list" name="checkboxgroup" :options="options"
-                            :default-value="[2]" @change="onChange" /> -->
-                            <!-- <a-tree v-model="params.menu_list" checkable :expanded-keys="expandedKeys"
-                                :auto-expand-parent="autoExpandParent" :selected-keys="selectedKeys" :tree-data="treeData"
-                                @expand="onExpand" @select="onSelect" /> -->
-
-                                <!-- <div v-for="(item,index) in treeData" :key="index">
-                                    <div>{{ item.title }}</div>
-                                    <div class="flex flex-wrap">
-                                        <div v-for="(item2,index2) in item.children" :key="`${index}-${index2}`">
-                                            <a-checkbox :value="item2.key" v-model="params.menu_list">{{ item2.title }}</a-checkbox>
-                                        </div>
-                                    </div>
-                                </div> -->
-                                <a-checkbox-group v-model="params.menu_list" name="checkboxgroup" :options="menuOptions" />
+                            <a-checkbox-group 
+                            v-model="params.menu_list" name="checkboxgroup" 
+                            :options="menuOptions"></a-checkbox-group>
                         </a-form-item>
                     </a-tab-pane>
                 </a-tabs>
@@ -101,14 +86,17 @@ const menuOptions = [
   { label: '调度中心', value: 'form' },
   { label: '资源池', value: 'pool' },
   { label: '统计', value: 'pool-statistics' },
+
   { label: '工具', value: 'tools' },
   { label: '制图助手', value: 'pic' },
   { label: '防微信文章分享', value: 'share-content' },
   { label: '权重比例二维码', value: 'more-ercode' },
   { label: '获客助手分享', value: 'share-link' },
+
   { label: '用户管理', value: 'user' },
   { label: '用户列表', value: 'user-list' },
   { label: '部门管理', value: 'department' },
+
   { label: '聊天室', value: 'chat' },
   { label: '聊天室管理', value: 'chatroom' },
   { label: '群聊文件管理', value: 'chatroom-file' },
@@ -116,7 +104,9 @@ const menuOptions = [
   { label: '私聊消息列表', value: 'chatroom-single-msg-list' },
   { label: '聊天室用户管理', value: 'chatroom-user' },
   { label: '聊天室角色管理', value: 'chatroom-role' },
-  { label: '聊天室分享配置', value: 'chatroom-share-config' }
+  { label: '聊天室分享配置', value: 'chatroom-share-config' },
+  { label: '金仓财道关注用户管理', value: 'wechat-common-user' }
+  
 ];
 
 export default {
@@ -207,6 +197,7 @@ export default {
             api.SetLimitById(params).then(() => {
                 this.loading = false;
                 this.$message.success("权限设置成功");
+                this.$emit('close');
             }).catch(() => {
                 this.loading = false;
             })

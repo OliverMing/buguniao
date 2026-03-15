@@ -171,4 +171,13 @@ export default {
     DeleteVipCourse:(id) => http(`/Admin/DeleteVipCourse?id=${id}`,'GET'),
     // 更新VIP课程
     UpdateVipCourse:(params) => http('/Admin/UpdateVipCourse','POST',params),
+    // 获取VIP课程阅读量列表
+    GetVipFileReadList:(params) => http('/Admin/GetVipFileReadList','POST',params),
+
+    // 金仓财道接口-------------------------------------------------------------------------
+
+    // 获取所有金仓财道关注用户
+    getAllWeChatUsersAsync:() => http(`/Wechat/GetAllWeChatUsersAsync`,'GET'),
+    // 批量发送模板消息
+    SendWechatTemplateMessage:(params) => http(`/Wechat/SendTemplateMessage`,'POST',params),
 }

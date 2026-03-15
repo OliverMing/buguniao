@@ -24,6 +24,10 @@
             <a-input placeholder="昵称" v-model="form.nickname" />
           </a-form-model-item>
 
+          <a-form-model-item label="风险提示" prop="risk_tips">
+            <a-input placeholder="风险提示" v-model="form.risk_tips" />
+          </a-form-model-item>
+
           <a-form-model-item label="VIP起止时间" prop="vipTime">
             <a-range-picker
             v-model="vipTime"
@@ -92,7 +96,8 @@ export default {
         vipStartTime: null, //vip开始时间
         vipEndTime: null, //vip结束时间
         vipRoomId: undefined, //vip房间
-        msg_screen:0, // 消息上屏 
+        msg_screen:0, // 消息上屏
+        risk_tips: null, //风险提示
       },
       form: { },
       rules: {
